@@ -6,11 +6,11 @@
     <session-factory>
         <property name="connection.url">jdbc:postgresql://localhost:5432/BookRep</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <mapping class="bookers.bookkeeper.AuthorEntity"/>
-        <mapping class="bookers.bookkeeper.BookEntity"/>
-        <mapping class="bookers.bookkeeper.ScoreEntity"/>
-        <mapping class="bookers.bookkeeper.UserEntity"/>
-        <mapping class="bookers.bookkeeper.UserbookEntity"/>
+        <mapping class="bookers.bookkeeper.Author"/>
+        <mapping class="bookers.bookkeeper.book.Book"/>
+        <mapping class="bookers.bookkeeper.Score"/>
+        <mapping class="bookers.bookkeeper.user.User"/>
+        <mapping class="bookers.bookkeeper.user.UserBook"/>
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 

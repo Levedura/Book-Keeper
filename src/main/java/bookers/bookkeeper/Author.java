@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "author", schema = "public", catalog = "BookRep")
-public class AuthorEntity {
+public class Author {
     private int id;
     private String name;
     private Long favorites;
@@ -44,7 +44,7 @@ public class AuthorEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorEntity that = (AuthorEntity) o;
+        Author that = (Author) o;
         return id == that.id &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(favorites, that.favorites);
