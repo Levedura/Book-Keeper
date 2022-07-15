@@ -1,5 +1,7 @@
 package bookers.bookkeeper;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Status {
     Plan("Plan to read"),
     Reading("Reading..."),
@@ -12,6 +14,7 @@ public enum Status {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return text;
     }

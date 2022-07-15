@@ -1,5 +1,7 @@
 package bookers.bookkeeper;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Genres {
 
     Fantasy("Fantasy"),
@@ -11,20 +13,20 @@ public enum Genres {
     Horror("Horror"),
     Thriller("Thriller"),
     Paranormal("Paranormal"),
-    Historical_Fiction("Historical_Fiction"),
-    Science_Fiction("Science_Fiction"),
+    Historical_Fiction("Historical Fiction"),
+    Science_Fiction("Science Fiction"),
     Childrens("Childrens"),
     Memoir("Memoir"),
     Cooking("Cooking"),
     Art("Art"),
-    Self_Help("Self_Help"),
+    Self_Help("Self Help"),
     Development("Development"),
     Motivational("Motivational"),
     Health("Health"),
     History("History"),
     Travel("Travel"),
     Guide("Guide"),
-    Families_Relationships("Families_Relationships"),
+    Families_Relationships("Families Relationships"),
     Humor("Humor");
 
     private final String name;
@@ -33,7 +35,12 @@ public enum Genres {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
+    @JsonValue
     public String toString() {
         return name;
     }

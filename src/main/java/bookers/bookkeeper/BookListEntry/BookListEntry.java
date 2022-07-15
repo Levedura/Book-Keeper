@@ -1,4 +1,4 @@
-package bookers.bookkeeper.user;
+package bookers.bookkeeper.userlist;
 
 import bookers.bookkeeper.Status;
 import bookers.bookkeeper.book.Book;
@@ -9,9 +9,9 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "userbooklist", schema = "public", catalog = "BookRep")
+@Table(name = "userbooklist", schema = "public", catalog = "BookKeeper")
 @Data
-public class UserBook {
+public class UserList {
 
     @Id
     @Column(name = "id")
