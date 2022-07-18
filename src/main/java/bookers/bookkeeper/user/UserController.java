@@ -1,12 +1,14 @@
 package bookers.bookkeeper.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,17 +23,23 @@ public class UserController {
         this.authManager = authManager;
     }
 
-    @GetMapping("users")
+    @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
-    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(name = "id") Long userId) {
         return userService.findById(userId);
     }
 
-    @PostMapping("user")
+    @PostMapping("/user/{username}")
+    @PreAuthorize(value = "authentication.principal.equals(#user.username)")
+    public User updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user){
+        return userService.updateUser(userName,user);
+    }
+
+    @PostMapping("/user")
     public User addUser(@RequestBody User user) {
         return userService.save(user);
     }
@@ -45,8 +53,7 @@ public class UserController {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             return "Logged In :) ";
         }
-        return "Oof";
-
+        return "Could not authenticate user";
     }
 
     @PostMapping("/register")
