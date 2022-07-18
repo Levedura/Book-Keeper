@@ -1,8 +1,9 @@
-package bookers.bookkeeper.userlist;
+package bookers.bookkeeper.BookListEntry;
 
-import bookers.bookkeeper.Status;
+import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.user.User;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,18 +12,20 @@ import java.sql.Date;
 @Entity
 @Table(name = "userbooklist", schema = "public", catalog = "BookKeeper")
 @Data
-public class UserList {
+public class BookEntry {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "book_id")
+    @JsonIdentityReference(alwaysAsId =true )
     private Book bookid;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JsonIdentityReference(alwaysAsId =true)
     private User userid;
 
     @Column(name = "score")

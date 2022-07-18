@@ -4,13 +4,13 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/BookRep</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/BookKeeper</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <mapping class="bookers.bookkeeper.Author"/>
+        <property name="show_sql">true</property>
+        <mapping class="bookers.bookkeeper.author.Author"/>
         <mapping class="bookers.bookkeeper.book.Book"/>
-        <mapping class="bookers.bookkeeper.Score"/>
         <mapping class="bookers.bookkeeper.user.User"/>
-        <mapping class="bookers.bookkeeper.user.UserBook"/>
+        <mapping class="bookers.bookkeeper.BookListEntry.BookEntry"/>
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 

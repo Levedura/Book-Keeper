@@ -1,21 +1,20 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.Genres;
+import bookers.bookkeeper.enums.Genres;
 import bookers.bookkeeper.author.Author;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "book", schema = "public", catalog = "BookKeeper")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @Data
-public class Book {
+public class Book extends RepresentationModel<Book> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +25,13 @@ public class Book {
     @Column(name = "cover")
     private String cover;
 
-    @ManyToMany
-    @JoinTable(name = "book_author",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @ManyToMany(mappedBy = "books")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Author> authors;
 
     @ElementCollection(targetClass = Genres.class)
     @CollectionTable(name = "bookgenres", joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "genres")
     @Enumerated(EnumType.STRING)
     private List<Genres> genres;
     @Column(name = "language")
@@ -45,21 +43,5 @@ public class Book {
     @Column(name = "score")
     private float globalscore;
 
-    public List<Author> fromAuthorIds(List<Long> authorIds) {
-/*
 
-        List<Author> authorList = new ArrayList<>();
-        if()
-        for (Long authorId : authorIds) {
-            Author author = new Author();
-
-            authorList.add();
-
-
-        }
-        authorIds.forEach();
-*/
-        return null;
-
-    }
 }

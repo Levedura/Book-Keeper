@@ -1,4 +1,4 @@
-package bookers.bookkeeper;
+package bookers.bookkeeper.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

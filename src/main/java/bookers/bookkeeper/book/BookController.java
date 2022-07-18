@@ -1,8 +1,10 @@
 package bookers.bookkeeper.book;
 
+import bookers.bookkeeper.enums.Genres;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -17,12 +19,22 @@ public class BookController {
 
     @GetMapping("/books")
     public List<Book> getBooks() {
-        return bs.getAllBooks();
+        return bs.findAll();
     }
 
-    @GetMapping(value = "/books/{id}")
-    public Book getBookById(@PathVariable(name = "id") Long id){
-        return bs.getBookById(id);
+    @GetMapping(value = "/book/{id}")
+    public Book getBookById(@PathVariable(name = "id") Long id) {
+        System.out.println(Arrays.toString(Genres.values()));
+        return bs.findById(id);
     }
 
+    @PostMapping(value = "/book")
+    public Book addBook(@RequestBody Book book) {
+        return bs.save(book);
+    }
+
+    @PostMapping(value = "/books")
+    public List<Book> addMultipleBooks(@RequestBody List<Book> books) {
+        return bs.saveAll(books);
+    }
 }

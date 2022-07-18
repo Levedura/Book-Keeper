@@ -1,57 +1,34 @@
-package bookers.bookkeeper;
+package bookers.bookkeeper.author;
+
+import bookers.bookkeeper.book.Book;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "author", schema = "public", catalog = "BookRep")
-public class Author {
-    private int id;
+@Table(name = "author", schema = "public", catalog = "BookKeeper")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id",scope = Author.class)
+@Data
+public class Author extends RepresentationModel<Author> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "name")
     private String name;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "book_author",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> books;
+    @Column(name = "favorites")
     private Long favorites;
 
-    @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "favorites")
-    public Long getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(Long favorites) {
-        this.favorites = favorites;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Author that = (Author) o;
-        return id == that.id &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(favorites, that.favorites);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, favorites);
-    }
 }
