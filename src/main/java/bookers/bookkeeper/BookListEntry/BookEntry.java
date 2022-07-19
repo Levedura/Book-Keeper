@@ -1,10 +1,14 @@
 package bookers.bookkeeper.BookListEntry;
 
+import bookers.bookkeeper.author.Author;
 import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.user.User;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -12,6 +16,8 @@ import java.sql.Date;
 @Entity
 @Table(name = "userbooklist", schema = "public", catalog = "BookKeeper")
 @Data
+
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id",scope = BookEntry.class)
 public class BookEntry {
 
     @Id
@@ -22,11 +28,11 @@ public class BookEntry {
     @OneToOne
     @JoinColumn(name = "book_id")
     @JsonIdentityReference(alwaysAsId =true )
-    private Book bookid;
+    private Book book;
 
     @ManyToOne
     @JsonIdentityReference(alwaysAsId =true)
-    private User userid;
+    private User user;
 
     @Column(name = "score")
     private float userscore;
@@ -39,6 +45,7 @@ public class BookEntry {
 
     @Column(name = "date_finished")
     private Date dateFinished;
+
 
     @Enumerated(EnumType.STRING)
     private Status status;

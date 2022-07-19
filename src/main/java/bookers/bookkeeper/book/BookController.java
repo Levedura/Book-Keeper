@@ -24,7 +24,6 @@ public class BookController {
 
     @GetMapping(value = "/book/{id}")
     public Book getBookById(@PathVariable(name = "id") Long id) {
-        System.out.println(Arrays.toString(Genres.values()));
         return bs.findById(id);
     }
 

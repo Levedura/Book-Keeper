@@ -23,22 +23,21 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         super(userRepository);
     }
 
-    public Optional<User> findUserByName(String name) {
-        return getTrep().findUserByName(name);
-    }
-
-
     public User updateUser(String userName, LoginHelper user) {
-        Optional<User> found = findUserByName(userName);
-        if (found.isEmpty()) {
-            throw new UsernameNotFoundException("User to update not found");
-        }
-        User foundUser = found.get();
+        User foundUser = getUserByNameWithCheck(userName);
         foundUser.setName(user.getUsername());
         foundUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         foundUser.setEmail(user.getEmail());
         super.save(foundUser);
         return foundUser;
+    }
+
+    public User getUserByNameWithCheck(String userName) {
+        Optional<User> found = getTrep().findUserByName(userName);
+        if (found.isEmpty()) {
+            throw new UsernameNotFoundException("User to update not found");
+        }
+        return found.get();
     }
 
     public User saveUser(User user) {
@@ -56,10 +55,6 @@ public class UserService extends BaseService<User, UserRepository> implements Us
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> op = findUserByName(username);
-        if (op.isPresent()) {
-            return op.get();
-        }
-        throw new UsernameNotFoundException("Username not found");
+        return getUserByNameWithCheck(username);
     }
 }
