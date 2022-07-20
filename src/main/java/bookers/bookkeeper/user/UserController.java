@@ -24,15 +24,15 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        return userService.findAll();
+        return userService.getAllEntities();
     }
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(name = "id") Long userId) {
-        return userService.findById(userId);
+        return userService.findEntityById(userId);
     }
 
-    @PostMapping("/user/{username}")
+    @PutMapping("/user/{username}")
     @PreAuthorize(value = "authentication.principal.equals(#user.username)")
     public User updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user){
         return userService.updateUser(userName,user);
@@ -40,7 +40,7 @@ public class UserController {
 
     @PostMapping("/user")
     public User addUser(@RequestBody User user) {
-        return userService.save(user);
+        return userService.saveEntity(user);
     }
 
     @PostMapping("/login")

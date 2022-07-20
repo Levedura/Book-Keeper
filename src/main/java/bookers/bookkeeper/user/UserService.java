@@ -28,12 +28,12 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         foundUser.setName(user.getUsername());
         foundUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         foundUser.setEmail(user.getEmail());
-        super.save(foundUser);
+        saveUser(foundUser);
         return foundUser;
     }
 
     public User getUserByNameWithCheck(String userName) {
-        Optional<User> found = getTrep().findUserByName(userName);
+        Optional<User> found = getRep().findUserByName(userName);
         if (found.isEmpty()) {
             throw new UsernameNotFoundException("User to update not found");
         }
@@ -50,7 +50,7 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         user.setEnabled(true);
         user.setIsCredentialsNonExpired(true);
 
-        return super.save(user);
+        return super.saveEntity(user);
     }
 
     @Override

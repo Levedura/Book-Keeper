@@ -1,11 +1,8 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.BookListEntry.BookEntry;
 import bookers.bookkeeper.enums.Genres;
 import bookers.bookkeeper.author.Author;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

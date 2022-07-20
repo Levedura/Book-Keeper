@@ -1,14 +1,13 @@
-package bookers.bookkeeper.BookListEntry;
+package bookers.bookkeeper.bookentry;
 
-import bookers.bookkeeper.author.Author;
-import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.book.Book;
+import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.user.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
-import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -16,8 +15,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "userbooklist", schema = "public", catalog = "BookKeeper")
 @Data
-
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id",scope = BookEntry.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = BookEntry.class)
 public class BookEntry {
 
     @Id
@@ -27,11 +25,12 @@ public class BookEntry {
 
     @OneToOne
     @JoinColumn(name = "book_id")
-    @JsonIdentityReference(alwaysAsId =true )
+    @JsonIdentityReference(alwaysAsId = true)
     private Book book;
 
     @ManyToOne
-    @JsonIdentityReference(alwaysAsId =true)
+    @JoinColumn(name = "user_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private User user;
 
     @Column(name = "score")
@@ -41,9 +40,11 @@ public class BookEntry {
     private Integer pagesRead;
 
     @Column(name = "date_added")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateAdded;
 
     @Column(name = "date_finished")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateFinished;
 
 

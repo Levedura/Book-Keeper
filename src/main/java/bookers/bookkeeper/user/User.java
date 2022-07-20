@@ -1,6 +1,6 @@
 package bookers.bookkeeper.user;
 
-import bookers.bookkeeper.BookListEntry.BookEntry;
+import bookers.bookkeeper.bookentry.BookEntry;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIdentityReference(alwaysAsId = true)
-    private List<BookEntry> userbooks;
+    private List<BookEntry> userlist;
 
     @JsonIgnore
     private Boolean enabled;
