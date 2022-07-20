@@ -1,21 +1,22 @@
 package bookers.bookkeeper.booklist;
 
 import bookers.bookkeeper.BaseService;
+import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.book.BookService;
 import bookers.bookkeeper.bookentry.BookEntry;
 import bookers.bookkeeper.bookentry.BookEntryDTO;
-import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class BookListService extends BaseService<BookEntry,BookListRepository> {
+public class BookListService extends BaseService<BookEntry, BookListRepository> {
 
     private final UserService userService;
     private final BookService bookService;
@@ -24,22 +25,28 @@ public class BookListService extends BaseService<BookEntry,BookListRepository> {
     public BookListService(UserService userService, BookService bookService, BookListRepository bookListService) {
         super(bookListService);
         this.userService = userService;
-        this.bookService= bookService;
+        this.bookService = bookService;
+    }
+
+    public List<BookEntry> getListSortedByBookTitle(Integer pages,Integer pageSize){
+        //return getEntitiesOrderedBy(rep::findByOrderByBookTitle,pages,pageSize);
     }
 
     public List<BookEntry> getUserList(String username) {
         return userService.getUserByNameWithCheck(username).getUserlist();
     }
-    public boolean userListContainsBook(User user,Book book){
+
+    public boolean userListContainsBook(User user, Book book) {
         for (BookEntry userbook : user.getUserlist()) {
-            if(userbook.getBook().equals(book)){
+            if (userbook.getBook().equals(book)) {
                 return true;
             }
         }
         return false;
 
     }
-    public BookEntry updateBookEntry(Long entryId, BookEntryDTO bookEntryDto, String username){
+
+    public BookEntry updateBookEntry(Long entryId, BookEntryDTO bookEntryDto, String username) {
 
         User user = userService.getUserByNameWithCheck(username);
         BookEntry bookEntry = findEntityById(entryId);
@@ -59,7 +66,7 @@ public class BookListService extends BaseService<BookEntry,BookListRepository> {
         Book bookToAdd = bookService.findEntityById(bookEntryDto.getBookid());
         User user = userService.getUserByNameWithCheck(username);
 
-        if(userListContainsBook(user,bookToAdd)){
+        if (userListContainsBook(user, bookToAdd)) {
             throw new IllegalStateException("Book already in list");
         }
 

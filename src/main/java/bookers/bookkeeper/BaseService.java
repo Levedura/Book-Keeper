@@ -1,16 +1,20 @@
 package bookers.bookkeeper;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class BaseService<T, Repository extends JpaRepository<T, Long>> {
 
-    private final Repository rep;
+    protected final Repository rep;
 
-    public BaseService(Repository rep) {
+    protected BaseService(Repository rep) {
         this.rep = rep;
     }
 
@@ -18,11 +22,11 @@ public class BaseService<T, Repository extends JpaRepository<T, Long>> {
         return rep;
     }
 
-    public List<T> getAllEntities(){
+    public List<T> getAllEntities() {
         return rep.findAll();
     }
 
-    public List<T> saveEntities(List<T> entities){
+    public List<T> saveEntities(List<T> entities) {
         return rep.saveAll(entities);
     }
 
@@ -40,6 +44,11 @@ public class BaseService<T, Repository extends JpaRepository<T, Long>> {
         }
         rep.deleteById(entityId);
         return new ResponseEntity<>(entityId, HttpStatus.OK);
+    }
+
+    public List<T> getEntitiesOrderedBy(Function<Pageable,List<T>> func , int pages, int size){
+        Pageable page = PageRequest.of(pages,size);
+        return func.apply(page);
     }
 
 

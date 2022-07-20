@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "user", schema = "public", catalog = "BookKeeper")
 @Data
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id",scope = User.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = User.class)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

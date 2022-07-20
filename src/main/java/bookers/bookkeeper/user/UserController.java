@@ -34,8 +34,8 @@ public class UserController {
 
     @PutMapping("/user/{username}")
     @PreAuthorize(value = "authentication.principal.equals(#user.username)")
-    public User updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user){
-        return userService.updateUser(userName,user);
+    public User updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user) {
+        return userService.updateUser(userName, user);
     }
 
     @PostMapping("/user")

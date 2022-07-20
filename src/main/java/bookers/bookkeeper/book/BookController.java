@@ -17,7 +17,6 @@ public class BookController {
     }
 
 
-
     @GetMapping("/books")
     public List<Book> getBooks() {
         return bookService.getAllEntities();
@@ -26,6 +25,21 @@ public class BookController {
     @GetMapping(value = "/book/{id}")
     public Book getBookById(@PathVariable(name = "id") Long bookId) {
         return bookService.findEntityById(bookId);
+    }
+
+    @GetMapping(value = "/books/score&{pages}&{pageSize}")
+    public List<Book> getBooksOrderedByScore(@PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return bookService.getBooksOrderedByScore(pages,pageSize);
+    }
+
+    @GetMapping(value = "/books/pages&{pages}&{pageSize}")
+    public List<Book> getBooksOrderedByPages(@PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return bookService.getBooksOrderedByPages(pages,pageSize);
+    }
+
+    @GetMapping(value = "/books/title&{pages}&{pageSize}")
+    public List<Book> getBooksOrderedByTitle(@PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return bookService.getBooksOrderedByTitle(pages,pageSize);
     }
 
     @PostMapping(value = "/book")
@@ -37,4 +51,6 @@ public class BookController {
     public List<Book> addMultipleBooks(@RequestBody List<Book> books) {
         return bookService.saveEntities(books);
     }
+
+
 }

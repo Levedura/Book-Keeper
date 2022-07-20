@@ -1,7 +1,7 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.enums.Genres;
 import bookers.bookkeeper.author.Author;
+import bookers.bookkeeper.enums.Genres;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,7 +44,7 @@ public class Book extends RepresentationModel<Book> {
     private Integer pages;
 
     @Column(name = "score")
-    private float globalscore;
+    private Float globalscore;
 
 
 }
