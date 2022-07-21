@@ -24,10 +24,11 @@ public class BookListController {
         return bookListService.getUserList(username);
     }
 
+
     @GetMapping("/userlist/{username}&booktitle&{pages}&{pageSize}")
     @PreAuthorize(value = "authentication.principal.username == #username")
-    public List<BookEntry> getUserListSortedByBookTitle(@PathVariable Integer pages, @PathVariable Integer pageSize,@PathVariable String username){
-        return bookListService.getListSortedByBookTitle(pages,pageSize);
+    public List<BookEntry> getUserListSortedByUserScore(@PathVariable Integer pages, @PathVariable Integer pageSize,@PathVariable String username){
+        return bookListService.getListSortedByUserScore(username,pages,pageSize);
     }
 
     @PostMapping("/userlist/{username}")

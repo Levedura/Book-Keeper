@@ -27,6 +27,7 @@ public class BookEntry {
     @OneToOne
     @JoinColumn(name = "book_id")
     @JsonIdentityReference(alwaysAsId = true)
+    @OrderBy(value = "title")
     private Book book;
 
     @ManyToOne

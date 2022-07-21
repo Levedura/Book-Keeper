@@ -8,6 +8,7 @@ import bookers.bookkeeper.bookentry.BookEntryDTO;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,6 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         this.bookService = bookService;
     }
 
-    public List<BookEntry> getListSortedByBookTitle(Integer pages,Integer pageSize){
-        //return getEntitiesOrderedBy(rep::findByOrderByBookTitle,pages,pageSize);
-    }
 
     public List<BookEntry> getUserList(String username) {
         return userService.getUserByNameWithCheck(username).getUserlist();
@@ -80,11 +78,18 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
 
         user.getUserlist().add(saveEntity(bookEntry));
 
+        //Might not be necessary
         userService.saveEntity(user);
         return bookEntry;
     }
 
     public ResponseEntity<Long> deleteEntry(Long id) {
         return super.deleteEntityById(id);
+    }
+
+
+    public List<BookEntry> getListSortedByUserScore(String username, Integer pages, Integer pageSize) {
+        User user = userService.getUserByNameWithCheck(username);
+        return rep.findByUserOrderByDateAdded(user, PageRequest.of(pages,pageSize));
     }
 }
