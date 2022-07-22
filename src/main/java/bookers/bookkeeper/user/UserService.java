@@ -25,15 +25,17 @@ public class UserService extends BaseService<User, UserRepository> implements Us
 
     public User updateUser(String userName, LoginHelper user) {
         User foundUser = getUserByNameWithCheck(userName);
-        foundUser.setName(user.getUsername());
+        foundUser.setUsername(user.getUsername());
         foundUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        foundUser.setEmail(user.getEmail());
+        if(user.getEmail()!= null){
+            foundUser.setEmail(user.getEmail());
+        }
         saveUser(foundUser);
         return foundUser;
     }
 
     public User getUserByNameWithCheck(String userName) {
-        Optional<User> found = getRep().findUserByName(userName);
+        Optional<User> found = getRep().findUserByUsername(userName);
         if (found.isEmpty()) {
             throw new UsernameNotFoundException("User to update not found");
         }

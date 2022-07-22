@@ -1,13 +1,8 @@
 package bookers.bookkeeper.user;
 
 import bookers.bookkeeper.bookentry.BookEntry;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,8 +21,9 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "email")
     private String email;
-    @Column
-    private String name;
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "password")
     private String password;
 
@@ -57,8 +53,9 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
