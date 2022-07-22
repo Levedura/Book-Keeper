@@ -25,10 +25,11 @@ public class BookListController {
     }
 
 
-    @GetMapping("/userlist/userscore={username}&{pages}&{pageSize}")
-    @PreAuthorize(value = "authentication.principal.username == #username")
-    public List<BookEntry> getUserListSortedByUserScore(@PathVariable(name = "username") String username ,@PathVariable(name = "pages") Integer pages, @PathVariable(name = "pageSize") Integer pageSize ){
-        return bookListService.getListSortedByUserScore(username,pages,pageSize);
+    //@GetMapping("/userlist/{username}-{pages}-{pageSize}")
+    @GetMapping("/userlist/&{username}&{pages}&{pageSize}")
+    public String getUserListSortedByUserScore(@PathVariable String username, @PathVariable String pages, @PathVariable String pageSize){
+        return ": |";
+        //return bookListService.getListSortedByUserScore(username,pages,pageSize);
     }
 
     @PostMapping("/userlist/{username}")
