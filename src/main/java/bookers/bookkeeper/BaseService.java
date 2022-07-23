@@ -7,12 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class BaseService<T, Repository extends JpaRepository<T, Long>> {
+public abstract class BaseService<T, Repository extends JpaRepository<T, Long>> {
 
     protected final Repository rep;
+    private static final String ERROR_MESSAGE = "Entity not found";
 
     protected BaseService(Repository rep) {
         this.rep = rep;
@@ -35,15 +35,15 @@ public class BaseService<T, Repository extends JpaRepository<T, Long>> {
     }
 
     public T findEntityById(Long entityId) {
-        return rep.findById(entityId).orElseThrow(() -> new IllegalStateException("Entity not found"));
+        return rep.findById(entityId).orElseThrow(() -> new IllegalStateException(ERROR_MESSAGE));
     }
 
-    public ResponseEntity<Long> deleteEntityById(Long entityId) {
+    public Long deleteEntityById(Long entityId) {
         if (!rep.existsById(entityId)) {
-            return new ResponseEntity<>(entityId, HttpStatus.NOT_FOUND);
+            throw new IllegalStateException(ERROR_MESSAGE);
         }
         rep.deleteById(entityId);
-        return new ResponseEntity<>(entityId, HttpStatus.OK);
+        return entityId;
     }
 
     public List<T> getEntitiesOrderedBy(Function<Pageable,List<T>> func , int pages, int size){

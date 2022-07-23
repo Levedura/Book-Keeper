@@ -1,7 +1,7 @@
 package bookers.bookkeeper.author;
 
+import bookers.bookkeeper.author.dto.AuthorDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,36 +18,37 @@ public class AuthorController {
 
 
     @GetMapping("/authors")
-    public List<Author> getAuthors() {
-        return authorService.getAllEntities();
+    public List<AuthorDto> getAuthors() {
+        return authorService.getAllAuthors();
     }
 
     @GetMapping("/author/{id}")
-    public Author getAuthorById(@PathVariable(name = "id") Long authorId) {
-        return authorService.findEntityById(authorId);
+    public AuthorDto getAuthorById(@PathVariable(name = "id") Long authorId) {
+        return authorService.getAuthor(authorId);
     }
 
     @GetMapping("/authors/name&{pages}&{size}")
-    public List<Author> getAuthorsOrderedByName(@PathVariable Integer pages, @PathVariable Integer size) {
+    public List<AuthorDto> getAuthorsOrderedByName(@PathVariable Integer pages, @PathVariable Integer size) {
         return authorService.getAuthorsOrderedByName(pages, size);
     }
 
     @GetMapping("/authors/favorites&{pages}&{size}")
-    public List<Author> getAuthorsOrderedByFavorites(@PathVariable Integer pages, @PathVariable Integer size) {
+    public List<AuthorDto> getAuthorsOrderedByFavorites(@PathVariable Integer pages, @PathVariable Integer size) {
         return authorService.getAuthorsOrderedByFavorites(pages, size);
     }
+
     @PostMapping("/author")
-    public Author addAuthor(@RequestBody Author author) {
-        return authorService.saveEntity(author);
+    public AuthorDto addAuthor(@RequestBody AuthorDto author) {
+        return authorService.addAuthor(author);
     }
 
     @PostMapping("/authors")
-    public List<Author> addListAuthors(@RequestBody List<Author> authors) {
-        return authorService.saveEntities(authors);
+    public List<AuthorDto> addListAuthors(@RequestBody List<AuthorDto> authors) {
+        return authorService.addAuthors(authors);
     }
 
     @DeleteMapping("/author/{id}")
-    public ResponseEntity<Long> deleteAuthor(@PathVariable(name = "id") Long authorId) {
+    public Long deleteAuthor(@PathVariable(name = "id") Long authorId) {
         return authorService.deleteEntityById(authorId);
     }
 

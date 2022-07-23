@@ -46,7 +46,7 @@ public class BookListController {
 
     @DeleteMapping("/userlist/{id}&{username}")
     @PreAuthorize(value = "authentication.principal.username == #username")
-    public ResponseEntity<Long> deleteBookEntry(@PathVariable Long id, @PathVariable String username) {
+    public Long deleteBookEntry(@PathVariable Long id, @PathVariable String username) {
         return bookListService.deleteEntry(id);
     }
 

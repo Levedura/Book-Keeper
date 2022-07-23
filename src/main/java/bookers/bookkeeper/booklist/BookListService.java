@@ -81,7 +81,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         return bookEntry;
     }
 
-    public ResponseEntity<Long> deleteEntry(Long id) {
+    public Long deleteEntry(Long id) {
         return super.deleteEntityById(id);
     }
 

@@ -1,37 +1,35 @@
 package bookers.bookkeeper.author.dto;
 
+import bookers.bookkeeper.DtoConverter;
 import bookers.bookkeeper.author.Author;
-import bookers.bookkeeper.book.Book;
-import bookers.bookkeeper.book.dto.BookDto;
+import bookers.bookkeeper.book.dto.BookDtoConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
-public class AuthorToDtoConverter {
+public class AuthorDtoConverter extends DtoConverter<AuthorDto, Author> {
+    BookDtoConverter bookDtoConverter;
 
-    public static AuthorDto convertToDto(Author author) {
-        AuthorDto authorDto = new AuthorDto();
-        List<Long> bookIds = author.getBooks().stream().map(Book::getId).collect(Collectors.toList());
-        authorDto.setName(author.getName());
-        authorDto.setBooks(bookIds);
-        authorDto.setFavorites(author.getFavorites());
-        return authorDto;
+    @Autowired
+    public AuthorDtoConverter(BookDtoConverter bookDtoConverter) {
+        this.bookDtoConverter = bookDtoConverter;
     }
 
-    public static List<AuthorDto> convertListToDto(List<Author> authors) {
-        return authors.stream()
-                .map(AuthorToDtoConverter::convertToDto)
-                .collect(Collectors.toList());
-    }
-    public static Author convertFromDto(AuthorDto authorDto,List<Book> books){
+    @Override
+    public Author convertFromDto(AuthorDto authorDto) {
         Author author = new Author();
         author.setName(authorDto.getName());
-        author.setBooks(books);
+        author.setBooks(bookDtoConverter.convertListFromDto(authorDto.books));
         author.setFavorites(authorDto.favorites);
         return author;
     }
 
-
+    @Override
+    public AuthorDto convertToDto(Author author) {
+        AuthorDto authorDto = new AuthorDto();
+        authorDto.setName(author.getName());
+        authorDto.setBooks(bookDtoConverter.convertListToDto(author.getBooks()));
+        authorDto.setFavorites(author.getFavorites());
+        return authorDto;
+    }
 }
