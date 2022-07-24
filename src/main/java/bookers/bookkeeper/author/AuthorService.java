@@ -1,8 +1,7 @@
 package bookers.bookkeeper.author;
 
 import bookers.bookkeeper.BaseService;
-import bookers.bookkeeper.author.dto.AuthorDto;
-import bookers.bookkeeper.author.dto.AuthorDtoConverter;
+import bookers.bookkeeper.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +10,12 @@ import java.util.List;
 @Service
 public class AuthorService extends BaseService<Author, AuthorRepository> {
 
-
+    BookService bookService;
 
     @Autowired
-    public AuthorService(AuthorRepository rep ) {
+    public AuthorService(AuthorRepository rep, BookService bookService) {
         super(rep);
+        this.bookService = bookService;
     }
 
     public List<Author> getAllAuthors() {
@@ -32,14 +32,6 @@ public class AuthorService extends BaseService<Author, AuthorRepository> {
 
     public List<Author> getAuthorsOrderedByFavorites(Integer pages, Integer pageSize) {
         return getEntitiesOrderedBy(rep::findByOrderByFavorites, pages, pageSize);
-    }
-
-    public Author addAuthor(Author author) {
-        return rep.save(author);
-    }
-
-    public List<Author> addAuthors(List<Author> authors) {
-        return rep.saveAll(authors);
     }
 
     public Long deleteAuthor(Long id) {

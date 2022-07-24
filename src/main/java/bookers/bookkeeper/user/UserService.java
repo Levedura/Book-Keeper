@@ -28,7 +28,7 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         User foundUser = getUserByNameWithCheck(userName);
         foundUser.setUsername(user.getUsername());
         foundUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        if(user.getEmail()!= null){
+        if (user.getEmail() != null) {
             foundUser.setEmail(user.getEmail());
         }
         saveUser(foundUser);

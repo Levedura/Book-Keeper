@@ -1,13 +1,16 @@
 package bookers.bookkeeper.author.dto;
 
-import bookers.bookkeeper.book.dto.BookDto;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class AuthorDto {
+public class AuthorDto extends RepresentationModel<AuthorDto> {
+    Long id;
     String name;
-    List<BookDto> books;
+    List<Long> books;
     Long favorites;
 }

@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findByOrderByNameAsc(Pageable pageable);
+
     List<Author> findByOrderByFavorites(Pageable pageable);
+
 }

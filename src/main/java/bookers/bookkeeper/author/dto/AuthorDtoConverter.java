@@ -2,25 +2,21 @@ package bookers.bookkeeper.author.dto;
 
 import bookers.bookkeeper.Converter;
 import bookers.bookkeeper.author.Author;
-import bookers.bookkeeper.book.dto.BookDtoConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import bookers.bookkeeper.book.Book;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class AuthorDtoConverter extends Converter<AuthorDto, Author> {
-    BookDtoConverter bookDtoConverter;
 
-    @Autowired
-    public AuthorDtoConverter(BookDtoConverter bookDtoConverter) {
-        this.bookDtoConverter = bookDtoConverter;
-    }
 
     @Override
     public Author fromDto(AuthorDto authorDto) {
         Author author = new Author();
+        author.setId(authorDto.getId());
         author.setName(authorDto.getName());
-        author.setBooks(bookDtoConverter.listFromDto(authorDto.books));
-        author.setFavorites(authorDto.favorites);
+        author.setFavorites(authorDto.getFavorites());
         return author;
     }
 
@@ -28,7 +24,8 @@ public class AuthorDtoConverter extends Converter<AuthorDto, Author> {
     public AuthorDto toDto(Author author) {
         AuthorDto authorDto = new AuthorDto();
         authorDto.setName(author.getName());
-        authorDto.setBooks(bookDtoConverter.listToDto(author.getBooks()));
+        authorDto.setBooks(author.getBooks().stream().map(Book::getId).collect(Collectors.toList()));
+        authorDto.setId(author.getId());
         authorDto.setFavorites(author.getFavorites());
         return authorDto;
     }

@@ -2,7 +2,6 @@ package bookers.bookkeeper.book;
 
 import bookers.bookkeeper.author.Author;
 import bookers.bookkeeper.enums.Genres;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -26,8 +25,7 @@ public class Book extends RepresentationModel<Book> {
     @Column(name = "cover")
     private String cover;
 
-    @ManyToMany(mappedBy = "books")
-    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Author> authors;
@@ -37,6 +35,7 @@ public class Book extends RepresentationModel<Book> {
     @Column(name = "genres")
     @Enumerated(EnumType.STRING)
     private List<Genres> genres;
+
     @Column(name = "language")
     private String language;
 

@@ -17,7 +17,7 @@ public abstract class Converter<DTO, T> {
         return mapList(t, this::fromDto);
     }
 
-    private static <A, B> List<B> mapList(List<A> list, Function<A, B> func) {
+    private <A, B> List<B> mapList(List<A> list, Function<A, B> func) {
         return list.stream().map(func).collect(Collectors.toList());
     }
 }

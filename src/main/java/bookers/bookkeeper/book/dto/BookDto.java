@@ -1,7 +1,6 @@
 package bookers.bookkeeper.book.dto;
 
 import bookers.bookkeeper.author.dto.AuthorDto;
-import bookers.bookkeeper.enums.Genres;
 import lombok.Data;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public class BookDto {
     String title;
     String cover;
     List<AuthorDto> authors;
-    List<Genres> genres;
+    List<String> genres;
     String language;
     Integer pages;
     Float globalscore;

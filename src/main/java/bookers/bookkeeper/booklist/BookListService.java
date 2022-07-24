@@ -9,7 +9,6 @@ import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -88,6 +87,6 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
 
     public List<BookEntry> getListSortedByUserScore(String username, Integer pages, Integer pageSize) {
         User user = userService.getUserByNameWithCheck(username);
-        return rep.findByUserOrderByDateAdded(user, PageRequest.of(pages,pageSize));
+        return rep.findByUserOrderByDateAdded(user, PageRequest.of(pages, pageSize));
     }
 }

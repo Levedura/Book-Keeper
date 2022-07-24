@@ -3,7 +3,6 @@ package bookers.bookkeeper.booklist;
 import bookers.bookkeeper.bookentry.BookEntry;
 import bookers.bookkeeper.bookentry.BookEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ public class BookListController {
 
 
     @GetMapping("/userlist/&{username}&{pages}&{pageSize}")
-    public String getUserListSortedByUserScore(@PathVariable String username, @PathVariable String pages, @PathVariable String pageSize){
+    public String getUserListSortedByUserScore(@PathVariable String username, @PathVariable String pages, @PathVariable String pageSize) {
         return ": |";
         //return bookListService.getListSortedByUserScore(username,pages,pageSize);
     }

@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface BookListRepository extends JpaRepository<BookEntry, Long> {
     List<BookEntry> findByUserOrderByUserscore(User user, Pageable page);
+
     List<BookEntry> findByUserOrderByPagesRead(User user, Pageable page);
-    List<BookEntry> findByUserOrderByDateAdded(User user,Pageable page);
+
+    List<BookEntry> findByUserOrderByDateAdded(User user, Pageable page);
 }
