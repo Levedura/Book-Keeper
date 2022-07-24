@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,7 +36,7 @@ public class UserService extends BaseService<User, UserRepository> implements Us
     }
 
     public User getUserByNameWithCheck(String userName) {
-        Optional<User> found = getRep().findUserByUsername(userName);
+        Optional<User> found = rep.findUserByUsername(userName);
         if (found.isEmpty()) {
             throw new UsernameNotFoundException("User to update not found");
         }
@@ -52,11 +53,15 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         user.setEnabled(true);
         user.setIsCredentialsNonExpired(true);
 
-        return super.saveEntity(user);
+        return rep.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return getUserByNameWithCheck(username);
+    }
+
+    public List<User> getUsers() {
+        return rep.findAll();
     }
 }

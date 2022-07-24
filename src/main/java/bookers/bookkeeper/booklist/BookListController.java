@@ -25,7 +25,6 @@ public class BookListController {
     }
 
 
-    //@GetMapping("/userlist/{username}-{pages}-{pageSize}")
     @GetMapping("/userlist/&{username}&{pages}&{pageSize}")
     public String getUserListSortedByUserScore(@PathVariable String username, @PathVariable String pages, @PathVariable String pageSize){
         return ": |";

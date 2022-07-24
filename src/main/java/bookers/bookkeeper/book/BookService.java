@@ -1,6 +1,7 @@
 package bookers.bookkeeper.book;
 
 import bookers.bookkeeper.BaseService;
+import bookers.bookkeeper.book.dto.BookDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,10 @@ public class BookService extends BaseService<Book, BookRepository> {
     }
 
 
+    public List<Book> getAllBooks(){
+        return rep.findAll();
+    }
+
     public List<Book> getBooksOrderedByScore(Integer pages, Integer pageSize) {
         return getEntitiesOrderedBy(rep::findByOrderByGlobalscore,pages,pageSize);
     }
@@ -23,8 +28,19 @@ public class BookService extends BaseService<Book, BookRepository> {
         return getEntitiesOrderedBy(rep::findByOrderByTitle,pages,pageSize);
     }
 
+    public Book addBook(Book book){
+        return rep.save(book);
+    }
+
+    public List<Book> addBooks(List<Book> books){
+        return rep.saveAll(books);
+    }
+
     public List<Book> getBooksOrderedByPages(Integer pages, Integer pageSize) {
         return getEntitiesOrderedBy(rep::findByOrderByPages,pages,pageSize);
     }
 
+    public Book getBook(Long bookId) {
+        return findEntityById(bookId);
+    }
 }

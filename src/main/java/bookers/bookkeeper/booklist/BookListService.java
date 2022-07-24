@@ -53,7 +53,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         bookEntryToChange.setPagesRead(bookEntryDto.getPagesRead());
         bookEntryToChange.setUserscore(bookEntryDto.getUserscore());
         bookEntryToChange.setStatus(bookEntryDto.getStatus());
-        userService.saveEntity(user);
+        userService.saveUser(user);
         return user.getUserlist().get(index);
     }
 
@@ -74,10 +74,10 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         bookEntry.setUserscore(bookEntryDto.getUserscore());
         bookEntry.setStatus(bookEntryDto.getStatus());
 
-        user.getUserlist().add(saveEntity(bookEntry));
+        user.getUserlist().add(rep.save(bookEntry));
 
         //Might not be necessary
-        userService.saveEntity(user);
+        userService.saveUser(user);
         return bookEntry;
     }
 

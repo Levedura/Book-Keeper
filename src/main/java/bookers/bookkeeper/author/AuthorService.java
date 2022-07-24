@@ -3,54 +3,46 @@ package bookers.bookkeeper.author;
 import bookers.bookkeeper.BaseService;
 import bookers.bookkeeper.author.dto.AuthorDto;
 import bookers.bookkeeper.author.dto.AuthorDtoConverter;
-import bookers.bookkeeper.book.Book;
-import bookers.bookkeeper.book.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static bookers.bookkeeper.author.dto.AuthorDtoConverter.*;
 
 @Service
 public class AuthorService extends BaseService<Author, AuthorRepository> {
 
 
-    AuthorDtoConverter authorDtoConverter;
 
     @Autowired
-    public AuthorService(AuthorRepository rep,AuthorDtoConverter authorDtoConverter) {
+    public AuthorService(AuthorRepository rep ) {
         super(rep);
-        this.authorDtoConverter = authorDtoConverter;
     }
 
-
-    public List<AuthorDto> getAllAuthors() {
-        return authorDtoConverter.convertListToDto(rep.findAll());
-    }
-    public AuthorDto getAuthor(Long id){
-        return authorDtoConverter.convertToDto(findEntityById(id));
+    public List<Author> getAllAuthors() {
+        return rep.findAll();
     }
 
-    public List<AuthorDto> getAuthorsOrderedByName(int pages, int pageSize) {
-        return authorDtoConverter.convertListToDto(getEntitiesOrderedBy(rep::findByOrderByNameAsc, pages, pageSize));
+    public Author getAuthor(Long id) {
+        return findEntityById(id);
     }
 
-    public List<AuthorDto> getAuthorsOrderedByFavorites(Integer pages, Integer pageSize) {
-        return authorDtoConverter.convertListToDto(getEntitiesOrderedBy(rep::findByOrderByFavorites, pages, pageSize));
+    public List<Author> getAuthorsOrderedByName(int pages, int pageSize) {
+        return getEntitiesOrderedBy(rep::findByOrderByNameAsc, pages, pageSize);
     }
 
-    public AuthorDto addAuthor(AuthorDto authorDto ){
-        rep.save(authorDtoConverter.convertFromDto(authorDto));
-        return authorDto;
-    }
-    public List<AuthorDto> addAuthors(List<AuthorDto> authorDto){
-        rep.saveAll(authorDtoConverter.convertListFromDto(authorDto));
-        return authorDto;
+    public List<Author> getAuthorsOrderedByFavorites(Integer pages, Integer pageSize) {
+        return getEntitiesOrderedBy(rep::findByOrderByFavorites, pages, pageSize);
     }
 
-    public Long deleteAuthor(Long id){
+    public Author addAuthor(Author author) {
+        return rep.save(author);
+    }
+
+    public List<Author> addAuthors(List<Author> authors) {
+        return rep.saveAll(authors);
+    }
+
+    public Long deleteAuthor(Long id) {
         return deleteEntityById(id);
     }
 
