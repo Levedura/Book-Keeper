@@ -27,7 +27,7 @@ public class AuthorService extends BaseService<Author, AuthorRepository> {
 
 
     public List<AuthorDto> getAllAuthors() {
-        return authorDtoConverter.convertListToDto(getAllEntities());
+        return authorDtoConverter.convertListToDto(rep.findAll());
     }
     public AuthorDto getAuthor(Long id){
         return authorDtoConverter.convertToDto(findEntityById(id));
@@ -42,11 +42,11 @@ public class AuthorService extends BaseService<Author, AuthorRepository> {
     }
 
     public AuthorDto addAuthor(AuthorDto authorDto ){
-        saveEntity(authorDtoConverter.convertFromDto(authorDto));
+        rep.save(authorDtoConverter.convertFromDto(authorDto));
         return authorDto;
     }
     public List<AuthorDto> addAuthors(List<AuthorDto> authorDto){
-        saveEntities(authorDtoConverter.convertListFromDto(authorDto));
+        rep.saveAll(authorDtoConverter.convertListFromDto(authorDto));
         return authorDto;
     }
 

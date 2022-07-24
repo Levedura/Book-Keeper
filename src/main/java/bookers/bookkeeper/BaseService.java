@@ -18,21 +18,6 @@ public abstract class BaseService<T, Repository extends JpaRepository<T, Long>> 
         this.rep = rep;
     }
 
-    public Repository getRep() {
-        return rep;
-    }
-
-    public List<T> getAllEntities() {
-        return rep.findAll();
-    }
-
-    public List<T> saveEntities(List<T> entities) {
-        return rep.saveAll(entities);
-    }
-
-    public T saveEntity(T entity) {
-        return rep.save(entity);
-    }
 
     public T findEntityById(Long entityId) {
         return rep.findById(entityId).orElseThrow(() -> new IllegalStateException(ERROR_MESSAGE));
