@@ -55,7 +55,6 @@ public class BookService extends BaseService<Book, BookRepository> {
     }
 
     public List<Book> getBookByGenres(List<String> genres) {
-        //Change to sql if possible
         return rep.findByGenres(genres,genres.size()).stream().map(super::findEntityById).collect(Collectors.toList());
     }
 }
