@@ -1,5 +1,6 @@
 package bookers.bookkeeper.author;
 
+import bookers.bookkeeper.book.Book;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

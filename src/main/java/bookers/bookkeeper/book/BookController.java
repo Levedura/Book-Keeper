@@ -36,12 +36,12 @@ public class BookController {
         return bookConverter.toDto(bookService.getBook(bookId));
     }
 
-    @GetMapping(value = "/booksByAuthors")
+    @PostMapping(value = "/booksByAuthors")
     public List<BookDto> getBooksByAuthor(@RequestBody List<Long> authorIds) {
         return bookConverter.listToDto(bookService.getBooksByAuthorIds(authorIds));
     }
 
-    @GetMapping(value = "/books/genres")
+    @PostMapping(value = "/books/genres")
     public List<BookDto> getBooksByGenre(@RequestBody List<String> genres) {
         return bookConverter.listToDto(bookService.getBookByGenres(genres));
     }

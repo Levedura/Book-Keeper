@@ -32,7 +32,6 @@ public class Book extends RepresentationModel<Book> {
 
     @ElementCollection(targetClass = Genres.class)
     @CollectionTable(name = "bookgenres", joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "genres")
     @Enumerated(EnumType.STRING)
     private List<Genres> genres;
 

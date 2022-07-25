@@ -2,6 +2,7 @@ package bookers.bookkeeper.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+
 public enum Genres {
 
     Fantasy("Fantasy"),
