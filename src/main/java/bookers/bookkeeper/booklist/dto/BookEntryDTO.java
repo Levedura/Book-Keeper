@@ -1,6 +1,8 @@
 package bookers.bookkeeper.bookentry;
 
+import bookers.bookkeeper.book.dto.BookDTO;
 import bookers.bookkeeper.enums.Status;
+import bookers.bookkeeper.user.dto.UserDTO;
 import lombok.Data;
 
 import javax.persistence.EnumType;
@@ -10,11 +12,10 @@ import java.sql.Date;
 @Data
 public class BookEntryDTO {
 
-    private Long entryid;
 
-    private Long bookid;
+    private BookDTO bookid;
 
-    private Long userid;
+    private UserDTO userid;
 
     private float userscore;
 
