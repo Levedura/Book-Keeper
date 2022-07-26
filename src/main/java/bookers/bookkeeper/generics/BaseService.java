@@ -1,13 +1,13 @@
-package bookers.bookkeeper;
+package bookers.bookkeeper.generics;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
-public abstract class BaseService<T, Repository extends JpaRepository<T, Long>> {
+public abstract class BaseService<T, Repository extends GenericRepository<T>> {
 
     private static final String ERROR_MESSAGE = "Entity not found";
     protected final Repository rep;
@@ -16,8 +16,11 @@ public abstract class BaseService<T, Repository extends JpaRepository<T, Long>> 
         this.rep = rep;
     }
 
+    public List<T> getAllEntities() {
+        return rep.findAll();
+    }
 
-    public T findEntityById(Long entityId) {
+    public T getEntityById(Long entityId) {
         return rep.findById(entityId).orElseThrow(() -> new IllegalStateException(ERROR_MESSAGE));
     }
 

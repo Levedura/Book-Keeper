@@ -1,25 +1,23 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.author.dto.AuthorDtoConverter;
-import bookers.bookkeeper.book.dto.BookDto;
-import bookers.bookkeeper.book.dto.BookDtoConverter;
-import bookers.bookkeeper.enums.Genres;
+import bookers.bookkeeper.author.dto.AuthorDTOConverter;
+import bookers.bookkeeper.book.dto.BookDTO;
+import bookers.bookkeeper.book.dto.BookDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
 
 
     BookService bookService;
-    BookDtoConverter bookConverter;
-    AuthorDtoConverter authorConverter;
+    BookDTOConverter bookConverter;
+    AuthorDTOConverter authorConverter;
 
     @Autowired
-    public BookController(BookService bookService, BookDtoConverter bookConverter, AuthorDtoConverter authorConverter) {
+    public BookController(BookService bookService, BookDTOConverter bookConverter, AuthorDTOConverter authorConverter) {
         this.bookService = bookService;
         this.bookConverter = bookConverter;
         this.authorConverter = authorConverter;
@@ -27,53 +25,55 @@ public class BookController {
 
 
     @GetMapping("/books")
-    public List<BookDto> getBooks() {
-        return bookConverter.listToDto(bookService.getAllBooks());
+    public List<BookDTO> getBooks() {
+        return bookConverter.listToDto(bookService.getAllEntities());
     }
 
     @GetMapping(value = "/book/{id}")
-    public BookDto getBookById(@PathVariable(name = "id") Long bookId) {
+    public BookDTO getBookById(@PathVariable(name = "id") Long bookId) {
         return bookConverter.toDto(bookService.getBook(bookId));
     }
 
     @PostMapping(value = "/booksByAuthors")
-    public List<BookDto> getBooksByAuthor(@RequestBody List<Long> authorIds) {
+    public List<BookDTO> getBooksByAuthor(@RequestBody List<Long> authorIds) {
         return bookConverter.listToDto(bookService.getBooksByAuthorIds(authorIds));
     }
 
     @PostMapping(value = "/books/genres")
-    public List<BookDto> getBooksByGenre(@RequestBody List<String> genres) {
+    public List<BookDTO> getBooksByGenre(@RequestBody List<String> genres) {
         return bookConverter.listToDto(bookService.getBookByGenres(genres));
     }
 
     @GetMapping(value = "/booksByAuthor/{id}")
-    public List<BookDto> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
+    public List<BookDTO> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
         return bookConverter.listToDto(bookService.getBookByAuthorId(authorId));
     }
 
     @GetMapping(value = "/books/score&{pages}&{pageSize}")
-    public List<BookDto> getBooksOrderedByScore(@PathVariable Integer pages, @PathVariable Integer pageSize) {
+    public List<BookDTO> getBooksOrderedByScore(@PathVariable Integer pages, @PathVariable Integer pageSize) {
         return bookConverter.listToDto(bookService.getBooksOrderedByScore(pages, pageSize));
     }
 
     @GetMapping(value = "/books/pages&{pages}&{pageSize}")
-    public List<BookDto> getBooksOrderedByPages(@PathVariable Integer pages, @PathVariable Integer pageSize) {
+    public List<BookDTO> getBooksOrderedByPages(@PathVariable Integer pages, @PathVariable Integer pageSize) {
         return bookConverter.listToDto(bookService.getBooksOrderedByPages(pages, pageSize));
     }
 
     @GetMapping(value = "/books/title&{pages}&{pageSize}")
-    public List<BookDto> getBooksOrderedByTitle(@PathVariable Integer pages, @PathVariable Integer pageSize) {
+    public List<BookDTO> getBooksOrderedByTitle(@PathVariable Integer pages, @PathVariable Integer pageSize) {
         return bookConverter.listToDto(bookService.getBooksOrderedByTitle(pages, pageSize));
     }
 
     @PostMapping(value = "/book")
-    public BookDto addBook(@RequestBody BookDto book) {
+    public BookDTO addBook(@RequestBody BookDTO book) {
         return bookConverter.toDto(bookService.addBook(bookConverter.fromDto(book)));
     }
 
     @PostMapping(value = "/books")
-    public List<BookDto> addBooks(@RequestBody List<BookDto> books) {
+    public List<BookDTO> addBooks(@RequestBody List<BookDTO> books) {
         return bookConverter.listToDto(bookService.addBooks(bookConverter.listFromDto(books)));
+
+
     }
 
 

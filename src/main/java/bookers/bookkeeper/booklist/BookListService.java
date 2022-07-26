@@ -1,10 +1,8 @@
 package bookers.bookkeeper.booklist;
 
-import bookers.bookkeeper.BaseService;
+import bookers.bookkeeper.generics.BaseService;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.book.BookService;
-import bookers.bookkeeper.bookentry.BookEntry;
-import bookers.bookkeeper.bookentry.BookEntryDTO;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,44 +39,36 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
 
     }
 
-    public BookEntry updateBookEntry(Long entryId, BookEntryDTO bookEntryDto, String username) {
+    public BookEntry updateBookEntry(Long entryId, BookEntry bookEntry, String username) {
 
         User user = userService.getUserByNameWithCheck(username);
-        BookEntry bookEntry = findEntityById(entryId);
+        BookEntry bookEntryFound = getEntityById(entryId);
 
         List<BookEntry> userList = user.getUserlist();
-        int index = userList.indexOf(bookEntry);
+        int index = userList.indexOf(bookEntryFound);
         BookEntry bookEntryToChange = userList.get(index);
-        bookEntryToChange.setPagesRead(bookEntryDto.getPagesRead());
-        bookEntryToChange.setUserscore(bookEntryDto.getUserscore());
-        bookEntryToChange.setStatus(bookEntryDto.getStatus());
+
+        bookEntryToChange.setPagesRead(bookEntry.getPagesRead());
+        bookEntryToChange.setUserscore(bookEntry.getUserscore());
+        bookEntryToChange.setStatus(bookEntry.getStatus());
+
         userService.saveUser(user);
         return user.getUserlist().get(index);
     }
 
-    public BookEntry addBookEntry(BookEntryDTO bookEntryDto, String username) {
-        BookEntry bookEntry = new BookEntry();
-        Book bookToAdd = bookService.findEntityById(bookEntryDto.getBookid());
+    public BookEntry addBookEntry(BookEntry bookEntry, String username,Long bookId) {
         User user = userService.getUserByNameWithCheck(username);
-
+        Book bookToAdd = bookService.getBook(bookId);
         if (userListContainsBook(user, bookToAdd)) {
             throw new IllegalStateException("Book already in list");
         }
-
         bookEntry.setBook(bookToAdd);
         bookEntry.setUser(user);
-        bookEntry.setDateAdded(bookEntryDto.getDateAdded());
-        bookEntry.setDateFinished(bookEntryDto.getDateFinished());
-        bookEntry.setPagesRead(bookEntryDto.getPagesRead());
-        bookEntry.setUserscore(bookEntryDto.getUserscore());
-        bookEntry.setStatus(bookEntryDto.getStatus());
-
-        user.getUserlist().add(rep.save(bookEntry));
-
-        //Might not be necessary
-        userService.saveUser(user);
+        rep.save(bookEntry);
+        //userService.saveUser(user);
         return bookEntry;
     }
+
 
     public Long deleteEntry(Long id) {
         return super.deleteEntityById(id);

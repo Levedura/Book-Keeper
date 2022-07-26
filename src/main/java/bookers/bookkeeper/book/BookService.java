@@ -1,11 +1,9 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.BaseService;
-import bookers.bookkeeper.enums.Genres;
+import bookers.bookkeeper.generics.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,11 +13,6 @@ public class BookService extends BaseService<Book, BookRepository> {
     @Autowired
     public BookService(BookRepository bookRepository) {
         super(bookRepository);
-    }
-
-
-    public List<Book> getAllBooks() {
-        return rep.findAll();
     }
 
     public List<Book> getBooksOrderedByScore(Integer pages, Integer pageSize) {
@@ -51,10 +44,10 @@ public class BookService extends BaseService<Book, BookRepository> {
     }
 
     public Book getBook(Long bookId) {
-        return findEntityById(bookId);
+        return getEntityById(bookId);
     }
 
     public List<Book> getBookByGenres(List<String> genres) {
-        return rep.findByGenres(genres,genres.size()).stream().map(super::findEntityById).collect(Collectors.toList());
+        return rep.findByGenres(genres,genres.size()).stream().map(super::getEntityById).collect(Collectors.toList());
     }
 }

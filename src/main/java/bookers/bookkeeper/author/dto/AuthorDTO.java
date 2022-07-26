@@ -8,7 +8,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AuthorDto extends RepresentationModel<AuthorDto> {
+public class AuthorDTO extends RepresentationModel<AuthorDTO> {
     Long id;
     String name;
     List<Long> books;

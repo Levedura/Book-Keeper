@@ -1,7 +1,8 @@
 package bookers.bookkeeper.booklist;
 
-import bookers.bookkeeper.bookentry.BookEntry;
-import bookers.bookkeeper.bookentry.BookEntryDTO;
+import bookers.bookkeeper.book.dto.BookDTOConverter;
+import bookers.bookkeeper.booklist.dto.BookEntryDTO;
+import bookers.bookkeeper.booklist.dto.BookEntryDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,34 +13,34 @@ import java.util.List;
 public class BookListController {
 
     BookListService bookListService;
+    BookEntryDTOConverter bookEntryDTOConverter;
 
     @Autowired
-    public BookListController(BookListService bookListService) {
+    public BookListController(BookListService bookListService, BookEntryDTOConverter bookDTOConverter) {
         this.bookListService = bookListService;
+        this.bookEntryDTOConverter = bookDTOConverter;
     }
 
     @GetMapping("/userlist/{username}")
-    public List<BookEntry> getUserListById(@PathVariable(name = "username") String username) {
-        return bookListService.getUserList(username);
+    public List<BookEntryDTO> getUserListById(@PathVariable(name = "username") String username) {
+        return bookEntryDTOConverter.listToDto(bookListService.getUserList(username));
     }
-
 
     @GetMapping("/userlist/&{username}&{pages}&{pageSize}")
-    public String getUserListSortedByUserScore(@PathVariable String username, @PathVariable String pages, @PathVariable String pageSize) {
-        return ": |";
-        //return bookListService.getListSortedByUserScore(username,pages,pageSize);
+    public List<BookEntryDTO> getUserListSortedByUserScore(@PathVariable String username, @PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return bookEntryDTOConverter.listToDto(bookListService.getListSortedByUserScore(username,pages,pageSize));
     }
 
-    @PostMapping("/userlist/{username}")
+    @PostMapping("/userlist/{username}/{bookID}")
     @PreAuthorize(value = "authentication.principal.username == #username")
-    public BookEntry addBookEntry(@PathVariable(name = "username") String username, @RequestBody BookEntryDTO bookEntryDto) {
-        return bookListService.addBookEntry(bookEntryDto, username);
+    public BookEntryDTO addBookEntry(@PathVariable(name = "username") String username, @RequestBody BookEntryDTO bookEntryDto, @PathVariable Long bookID) {
+        return bookEntryDTOConverter.toDto(bookListService.addBookEntry(bookEntryDTOConverter.fromDto(bookEntryDto), username,bookID));
     }
 
     @PutMapping("/userlist/{id}&{username}")
     @PreAuthorize(value = "authentication.principal.username == #username")
-    public BookEntry updateBookEntry(@PathVariable Long id, @RequestBody BookEntryDTO bookEntryDto, @PathVariable String username) {
-        return bookListService.updateBookEntry(id, bookEntryDto, username);
+    public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody BookEntryDTO bookEntryDto, @PathVariable String username) {
+        return bookEntryDTOConverter.toDto(bookListService.updateBookEntry(id, bookEntryDTOConverter.fromDto(bookEntryDto), username));
     }
 
     @DeleteMapping("/userlist/{id}&{username}")

@@ -1,9 +1,9 @@
 package bookers.bookkeeper.user;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import bookers.bookkeeper.generics.GenericRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends GenericRepository<User> {
     Optional<User> findUserByUsername(String name);
 }

@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(name = "id") Long userId) {
-        return userService.findEntityById(userId);
+        return userService.getEntityById(userId);
     }
 
     @PutMapping("/user/{username}")

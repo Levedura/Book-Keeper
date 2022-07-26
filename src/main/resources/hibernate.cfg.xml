@@ -10,7 +10,7 @@
         <mapping class="bookers.bookkeeper.author.Author"/>
         <mapping class="bookers.bookkeeper.book.Book"/>
         <mapping class="bookers.bookkeeper.user.User"/>
-        <mapping class="bookers.bookkeeper.bookentry.BookEntry"/>
+        <mapping class="bookers.bookkeeper.booklist.BookEntry"/>
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 

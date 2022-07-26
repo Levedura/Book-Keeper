@@ -1,15 +1,15 @@
 package bookers.bookkeeper.book.dto;
 
-import bookers.bookkeeper.author.dto.AuthorDto;
+import bookers.bookkeeper.author.dto.AuthorDTO;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class BookDto {
+public class BookDTO {
     String title;
     String cover;
-    List<AuthorDto> authors;
+    List<AuthorDTO> authors;
     List<String> genres;
     String language;
     Integer pages;

@@ -1,6 +1,7 @@
 package bookers.bookkeeper.book;
 
 import bookers.bookkeeper.enums.Genres;
+import bookers.bookkeeper.generics.GenericRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,7 @@ import java.util.List;
 
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends GenericRepository<Book> {
     List<Book> findByOrderByGlobalscore(Pageable page);
 
     List<Book> findByOrderByPages(Pageable page);

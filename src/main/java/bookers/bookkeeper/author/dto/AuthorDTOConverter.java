@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 @Component
-public class AuthorDtoConverter extends Converter<AuthorDto, Author> {
+public class AuthorDTOConverter extends Converter<AuthorDTO, Author> {
 
 
     @Override
-    public Author fromDto(AuthorDto authorDto) {
+    public Author fromDto(AuthorDTO authorDto) {
         Author author = new Author();
         author.setId(authorDto.getId());
         author.setName(authorDto.getName());
@@ -21,8 +21,8 @@ public class AuthorDtoConverter extends Converter<AuthorDto, Author> {
     }
 
     @Override
-    public AuthorDto toDto(Author author) {
-        AuthorDto authorDto = new AuthorDto();
+    public AuthorDTO toDto(Author author) {
+        AuthorDTO authorDto = new AuthorDTO();
         authorDto.setName(author.getName());
         authorDto.setBooks(author.getBooks().stream().map(Book::getId).collect(Collectors.toList()));
         authorDto.setId(author.getId());

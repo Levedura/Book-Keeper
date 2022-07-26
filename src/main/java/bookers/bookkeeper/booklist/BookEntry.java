@@ -1,4 +1,4 @@
-package bookers.bookkeeper.bookentry;
+package bookers.bookkeeper.booklist;
 
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.enums.Status;
