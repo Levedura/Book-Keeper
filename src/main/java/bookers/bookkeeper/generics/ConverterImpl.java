@@ -1,4 +1,4 @@
-package bookers.bookkeeper;
+package bookers.bookkeeper.generics;
 
 import bookers.bookkeeper.generics.Converter;
 

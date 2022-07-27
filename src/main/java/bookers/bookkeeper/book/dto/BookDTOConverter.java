@@ -1,6 +1,6 @@
 package bookers.bookkeeper.book.dto;
 
-import bookers.bookkeeper.ConverterImpl;
+import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.author.dto.AuthorDTOConverter;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.enums.Genres;

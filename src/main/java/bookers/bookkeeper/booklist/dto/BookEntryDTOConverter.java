@@ -1,6 +1,6 @@
 package bookers.bookkeeper.booklist.dto;
 
-import bookers.bookkeeper.ConverterImpl;
+import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.book.dto.BookDTOConverter;
 import bookers.bookkeeper.booklist.BookEntry;
 import bookers.bookkeeper.booklist.BookListService;

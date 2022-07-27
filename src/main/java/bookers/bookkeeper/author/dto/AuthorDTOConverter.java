@@ -1,6 +1,6 @@
 package bookers.bookkeeper.author.dto;
 
-import bookers.bookkeeper.ConverterImpl;
+import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.author.Author;
 import bookers.bookkeeper.book.Book;
 import org.springframework.stereotype.Component;

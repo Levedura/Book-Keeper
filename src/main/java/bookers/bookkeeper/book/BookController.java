@@ -1,79 +1,50 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.author.dto.AuthorDTOConverter;
 import bookers.bookkeeper.book.dto.BookDTO;
 import bookers.bookkeeper.book.dto.BookDTOConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import bookers.bookkeeper.generics.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class BookController {
+@RequestMapping("/books")
+public class BookController extends BaseController<Book, BookDTO, BookDTOConverter, BookService> {
 
-
-    BookService bookService;
-    BookDTOConverter bookConverter;
-    AuthorDTOConverter authorConverter;
-
-    @Autowired
-    public BookController(BookService bookService, BookDTOConverter bookConverter, AuthorDTOConverter authorConverter) {
-        this.bookService = bookService;
-        this.bookConverter = bookConverter;
-        this.authorConverter = authorConverter;
+    public BookController(BookService service, BookDTOConverter converter) {
+        super(service, converter);
     }
 
-
-    @GetMapping("/books")
-    public List<BookDTO> getBooks() {
-        return bookConverter.listToDto(bookService.getAllEntities());
-    }
-
-    @GetMapping(value = "/book/{id}")
-    public BookDTO getBookById(@PathVariable(name = "id") Long bookId) {
-        return bookConverter.toDto(bookService.getBook(bookId));
-    }
-
-    @PostMapping(value = "/booksByAuthors")
+    @PostMapping(value = "/authors")
     public List<BookDTO> getBooksByAuthor(@RequestBody List<Long> authorIds) {
-        return bookConverter.listToDto(bookService.getBooksByAuthorIds(authorIds));
+        return super.getEntitiesByList(authorIds, service::getBooksByAuthorIds);
     }
 
-    @PostMapping(value = "/books/genres")
+    @PostMapping(value = "/genres")
     public List<BookDTO> getBooksByGenre(@RequestBody List<String> genres) {
-        return bookConverter.listToDto(bookService.getBookByGenres(genres));
+        return super.getEntitiesByList(genres, service::getBookByGenres);
     }
 
-    @GetMapping(value = "/booksByAuthor/{id}")
+    @GetMapping(value = "/author/{id}")
     public List<BookDTO> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
-        return bookConverter.listToDto(bookService.getBookByAuthorId(authorId));
+        return converter.listToDto(service.getBookByAuthorId(authorId));
     }
 
-    @GetMapping(value = "/books/score&{pages}&{pageSize}")
-    public List<BookDTO> getBooksOrderedByScore(@PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return bookConverter.listToDto(bookService.getBooksOrderedByScore(pages, pageSize));
+    @GetMapping(value = "/score")
+    public List<BookDTO> getBooksOrderedByScore() {
+        return super.getSimpleOrderedBy(service::getBooksOrderedByScore);
     }
 
-    @GetMapping(value = "/books/pages&{pages}&{pageSize}")
-    public List<BookDTO> getBooksOrderedByPages(@PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return bookConverter.listToDto(bookService.getBooksOrderedByPages(pages, pageSize));
+    @GetMapping(value = "/npages")
+    public List<BookDTO> getBooksOrderedByPages() {
+        return super.getSimpleOrderedBy(service::getBooksOrderedByPages);
+        //return bookConverter.listToDto(bookService.getBooksOrderedByPages(pages, pageSize));
     }
 
-    @GetMapping(value = "/books/title&{pages}&{pageSize}")
-    public List<BookDTO> getBooksOrderedByTitle(@PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return bookConverter.listToDto(bookService.getBooksOrderedByTitle(pages, pageSize));
-    }
-
-    @PostMapping(value = "/book")
-    public BookDTO addBook(@RequestBody BookDTO book) {
-        return bookConverter.toDto(bookService.addBook(bookConverter.fromDto(book)));
-    }
-
-    @PostMapping(value = "/books")
-    public List<BookDTO> addBooks(@RequestBody List<BookDTO> books) {
-        return bookConverter.listToDto(bookService.addBooks(bookConverter.listFromDto(books)));
-
-
+    @GetMapping(value = "title")
+    public List<BookDTO> getBooksOrderedByTitle() {
+        return super.getSimpleOrderedBy(service::getBooksOrderedByTitle);
+        //return bookConverter.listToDto(bookService.getBooksOrderedByTitle(pages, pageSize));
     }
 
 
