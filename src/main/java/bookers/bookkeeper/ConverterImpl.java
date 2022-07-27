@@ -1,10 +1,12 @@
 package bookers.bookkeeper;
 
+import bookers.bookkeeper.generics.Converter;
+
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class Converter<DTO, T> {
+public abstract class ConverterImpl<T, DTO> implements Converter<T,DTO> {
     public abstract DTO toDto(T t);
 
     public abstract T fromDto(DTO t);

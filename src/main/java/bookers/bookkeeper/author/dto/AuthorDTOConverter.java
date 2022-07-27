@@ -1,6 +1,6 @@
 package bookers.bookkeeper.author.dto;
 
-import bookers.bookkeeper.Converter;
+import bookers.bookkeeper.ConverterImpl;
 import bookers.bookkeeper.author.Author;
 import bookers.bookkeeper.book.Book;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 @Component
-public class AuthorDTOConverter extends Converter<AuthorDTO, Author> {
+public class AuthorDTOConverter extends ConverterImpl<Author, AuthorDTO> {
 
 
     @Override

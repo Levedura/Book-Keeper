@@ -1,6 +1,6 @@
 package bookers.bookkeeper.booklist.dto;
 
-import bookers.bookkeeper.Converter;
+import bookers.bookkeeper.ConverterImpl;
 import bookers.bookkeeper.book.dto.BookDTOConverter;
 import bookers.bookkeeper.booklist.BookEntry;
 import bookers.bookkeeper.booklist.BookListService;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookEntryDTOConverter extends Converter<BookEntryDTO, BookEntry> {
+public class BookEntryDTOConverter extends ConverterImpl<BookEntry, BookEntryDTO> {
 
     @Autowired
     public BookEntryDTOConverter(BookDTOConverter bookDTOConverter, BookListService bookService) {

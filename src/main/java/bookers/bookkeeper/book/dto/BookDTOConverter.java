@@ -1,6 +1,6 @@
 package bookers.bookkeeper.book.dto;
 
-import bookers.bookkeeper.Converter;
+import bookers.bookkeeper.ConverterImpl;
 import bookers.bookkeeper.author.dto.AuthorDTOConverter;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.enums.Genres;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 @Component
-public class BookDTOConverter extends Converter<BookDTO, Book> {
+public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
 
     AuthorDTOConverter authorDtoConverter;
 

@@ -1,6 +1,5 @@
 package bookers.bookkeeper.booklist;
 
-import bookers.bookkeeper.book.dto.BookDTOConverter;
 import bookers.bookkeeper.booklist.dto.BookEntryDTO;
 import bookers.bookkeeper.booklist.dto.BookEntryDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;

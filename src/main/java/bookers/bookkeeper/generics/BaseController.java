@@ -1,16 +1,15 @@
 package bookers.bookkeeper.generics;
 
-import bookers.bookkeeper.Converter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public class BaseController<T, DTO ,Repository extends GenericRepository<T>> {
+public class BaseController<T, DTO,C extends Converter<T,DTO>, S extends IService<T>> {
 
-    protected final BaseService<T,Repository> service;
-    protected final Converter<DTO, T> converter;
+    protected final S service;
+    protected final C converter;
 
-    public BaseController(BaseService<T,Repository> service, Converter<DTO, T> converter) {
+    public BaseController(S service, C converter) {
         this.service = service;
         this.converter = converter;
     }
