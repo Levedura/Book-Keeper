@@ -1,5 +1,6 @@
 package bookers.bookkeeper.generics;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,31 +29,30 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends IServ
     }
 
     @GetMapping(value = "/{pages}&{pageSize}")
-    public List<DTO> getSimpleOrderedBy(@PathVariable Integer pages, @PathVariable Integer pageSize, BiFunction<Integer, Integer, List<T>> orderFunction) {
+    public List<DTO> getSimpleOrderedBy(@PathVariable Integer pages, @PathVariable Integer pageSize, BiFunction<Integer,Integer, List<T>> orderFunction) {
         return converter.listToDto(orderFunction.apply(pages, pageSize));
     }
+
 
     @PostMapping(value = "")
     public DTO add(@RequestBody DTO dto) {
         return converter.toDto(service.addEntity(converter.fromDto(dto)));
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/list")
     public List<DTO> addMultiple(@RequestBody List<DTO> dtoList) {
         List<DTO> result = new ArrayList<>();
         dtoList.forEach(dto -> result.add(add(dto)));
         return result;
     }
 
-
     @DeleteMapping(value = "/{id}")
     public Long deleteById(@PathVariable Long id) {
         return service.deleteEntityById(id);
     }
 
-
-    @PostMapping(value = "")
-    public <A> List<DTO> getEntitiesByList(List<A> list, Function<List<A>, List<T>> getGroupFunction) {
+    @PostMapping(value = "/group")
+    public <A> List<DTO> getEntitiesByList(@RequestBody List<A> list, Function<List<A>, List<T>> getGroupFunction) {
         return converter.listToDto(getGroupFunction.apply(list));
     }
 

@@ -1,5 +1,8 @@
 package bookers.bookkeeper.user;
 
+import bookers.bookkeeper.generics.BaseController;
+import bookers.bookkeeper.user.dto.UserDTO;
+import bookers.bookkeeper.user.dto.UserDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,34 +11,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-public class UserController {
+@RequestMapping("/users")
+public class UserController extends BaseController<User, UserDTO, UserDTOConverter, UserService> {
 
-    private final UserService userService;
-    private final AuthenticationManager authManager;
+    AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserController(UserService userService, AuthenticationManager authManager) {
-        this.userService = userService;
-        this.authManager = authManager;
+    public UserController(UserService service, UserDTOConverter converter, AuthenticationManager authenticationManager) {
+        super(service, converter);
+        this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getUsers();
-    }
-
-    @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable(name = "id") Long userId) {
-        return userService.getEntityById(userId);
-    }
-
-    @PutMapping("/user/{username}")
+    @PutMapping("/{username}")
     @PreAuthorize(value = "authentication.principal.username== #userName")
     public User updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user) {
-        return userService.updateUser(userName, user);
+        return service.updateUser(userName, user);
     }
 
 
@@ -43,7 +34,7 @@ public class UserController {
     public String loginUser(@RequestBody LoginHelper credentials) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword());
-        Authentication auth = authManager.authenticate(token);
+        Authentication auth = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(auth);
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             return "Logged In :) ";
@@ -53,6 +44,6 @@ public class UserController {
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        return userService.saveUser(user);
+        return service.saveUser(user);
     }
 }

@@ -16,12 +16,12 @@ public class BookController extends BaseController<Book, BookDTO, BookDTOConvert
     }
 
     @PostMapping(value = "/authors")
-    public List<BookDTO> getBooksByAuthor(@RequestBody List<Long> authorIds) {
+    public List<BookDTO> getBooksByAuthor(List<Long> authorIds) {
         return super.getEntitiesByList(authorIds, service::getBooksByAuthorIds);
     }
 
     @PostMapping(value = "/genres")
-    public List<BookDTO> getBooksByGenre(@RequestBody List<String> genres) {
+    public List<BookDTO> getBooksByGenre(List<String> genres) {
         return super.getEntitiesByList(genres, service::getBookByGenres);
     }
 
@@ -31,20 +31,21 @@ public class BookController extends BaseController<Book, BookDTO, BookDTOConvert
     }
 
     @GetMapping(value = "/score")
-    public List<BookDTO> getBooksOrderedByScore() {
-        return super.getSimpleOrderedBy(service::getBooksOrderedByScore);
+    public List<BookDTO> getBooksOrderedByScore(Integer pages, Integer pageSize) {
+        //Change this
+        return super.getSimpleOrderedBy(pages, pageSize, service::getBooksOrderedByScore);
     }
 
     @GetMapping(value = "/npages")
-    public List<BookDTO> getBooksOrderedByPages() {
-        return super.getSimpleOrderedBy(service::getBooksOrderedByPages);
-        //return bookConverter.listToDto(bookService.getBooksOrderedByPages(pages, pageSize));
+    public List<BookDTO> getBooksOrderedByPages(Integer pages, Integer pageSize) {
+        //Change this
+        return super.getSimpleOrderedBy(pages, pageSize, service::getBooksOrderedByPages);
     }
 
-    @GetMapping(value = "title")
-    public List<BookDTO> getBooksOrderedByTitle() {
-        return super.getSimpleOrderedBy(service::getBooksOrderedByTitle);
-        //return bookConverter.listToDto(bookService.getBooksOrderedByTitle(pages, pageSize));
+    @GetMapping(value = "/title")
+    public List<BookDTO> getBooksOrderedByTitle(Integer pages, Integer pageSize) {
+        //Change this
+        return super.getSimpleOrderedBy(pages, pageSize, service::getBooksOrderedByTitle);
     }
 
 

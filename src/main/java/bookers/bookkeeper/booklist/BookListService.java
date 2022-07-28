@@ -7,9 +7,12 @@ import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 @Service
 public class BookListService extends BaseService<BookEntry, BookListRepository> {
@@ -76,7 +79,23 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
 
 
     public List<BookEntry> getListSortedByUserScore(String username, Integer pages, Integer pageSize) {
+        return getListSortedGeneric(username,pages,pageSize,rep::findByUserOrderByUserscore);
+    }
+
+    public List<BookEntry> getListSortedByDateAdded(String username, Integer pages, Integer pageSize) {
+        return getListSortedGeneric(username,pages,pageSize,rep::findByUserOrderByDateAdded);
+    }
+    public List<BookEntry> getListSortedByDateFinished(String username, Integer pages, Integer pageSize) {
+        return getListSortedGeneric(username,pages,pageSize,rep::findByUserOrderByDateFinished);
+    }
+
+    public List<BookEntry> getListSortedByPagesRead(String username, Integer pages, Integer pageSize) {
+        return getListSortedGeneric(username,pages,pageSize,rep::findByUserOrderByPagesRead);
+    }
+
+    private List<BookEntry> getListSortedGeneric(String username, Integer pages, Integer pageSize, BiFunction<User,Pageable,List<BookEntry>> function){
         User user = userService.getUserByNameWithCheck(username);
-        return rep.findByUserOrderByDateAdded(user, PageRequest.of(pages, pageSize));
+        PageRequest pageReq = PageRequest.of(pages, pageSize);
+        return function.apply(user,pageReq);
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 public interface BookListRepository extends GenericRepository<BookEntry> {
     List<BookEntry> findByUserOrderByUserscore(User user, Pageable page);
 
+    List<BookEntry> findByUserOrderByDateFinished(User user, Pageable page);
+
     List<BookEntry> findByUserOrderByPagesRead(User user, Pageable page);
 
     List<BookEntry> findByUserOrderByDateAdded(User user, Pageable page);
