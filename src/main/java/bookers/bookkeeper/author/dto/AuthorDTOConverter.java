@@ -1,8 +1,8 @@
 package bookers.bookkeeper.author.dto;
 
-import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.author.Author;
 import bookers.bookkeeper.book.Book;
+import bookers.bookkeeper.generics.ConverterImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -10,11 +10,12 @@ import java.util.stream.Collectors;
 @Component
 public class AuthorDTOConverter extends ConverterImpl<Author, AuthorDTO> {
 
-
     @Override
     public Author fromDto(AuthorDTO authorDto) {
         Author author = new Author();
-        author.setId(authorDto.getId());
+        if (authorDto.getId() != null) {
+            author.setId(authorDto.getId());
+        }
         author.setName(authorDto.getName());
         author.setFavorites(authorDto.getFavorites());
         return author;
@@ -24,7 +25,9 @@ public class AuthorDTOConverter extends ConverterImpl<Author, AuthorDTO> {
     public AuthorDTO toDto(Author author) {
         AuthorDTO authorDto = new AuthorDTO();
         authorDto.setName(author.getName());
-        authorDto.setBooks(author.getBooks().stream().map(Book::getId).collect(Collectors.toList()));
+        if (author.getBooks() != null) {
+            authorDto.setBooks(author.getBooks().stream().map(Book::getId).collect(Collectors.toList()));
+        }
         authorDto.setId(author.getId());
         authorDto.setFavorites(author.getFavorites());
         return authorDto;

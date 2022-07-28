@@ -31,17 +31,6 @@ public class AuthorController extends BaseController<Author, AuthorDTO, AuthorDT
         return authorDto;
     }*/
 
-    @GetMapping("/authors/name&{pages}&{size}")
-    public List<AuthorDTO> getAuthorsOrderedByName(@PathVariable Integer pages, @PathVariable Integer size) {
-        return converter.listToDto(service.getAuthorsOrderedByName(pages, size));
-    }
-
-    @GetMapping("/authors/favorites&{pages}&{size}")
-    public List<AuthorDTO> getAuthorsOrderedByFavorites(@PathVariable Integer pages, @PathVariable Integer size) {
-        return converter.listToDto(service.getAuthorsOrderedByFavorites(pages, size));
-    }
-
-
 
 
 }

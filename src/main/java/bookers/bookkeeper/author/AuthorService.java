@@ -14,14 +14,5 @@ public class AuthorService extends BaseService<Author, AuthorRepository> {
         super(authorRep);
     }
 
-    public List<Author> getAuthorsOrderedByName(int pages, int pageSize) {
-
-        return getEntitiesOrderedBy(rep::findByOrderByNameAsc, pages, pageSize);
-    }
-
-    public List<Author> getAuthorsOrderedByFavorites(Integer pages, Integer pageSize) {
-        return getEntitiesOrderedBy(rep::findByOrderByFavorites, pages, pageSize);
-    }
-
 
 }

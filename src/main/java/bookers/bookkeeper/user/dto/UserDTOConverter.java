@@ -1,13 +1,13 @@
 package bookers.bookkeeper.user.dto;
 
-import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.booklist.dto.BookEntryDTOConverter;
+import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserDTOConverter extends ConverterImpl<User,UserDTO> {
+public class UserDTOConverter extends ConverterImpl<User, UserDTO> {
 
     BookEntryDTOConverter bookEntryDTOConverter;
 

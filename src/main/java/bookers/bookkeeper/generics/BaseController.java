@@ -1,12 +1,9 @@
 package bookers.bookkeeper.generics;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends IService<T>> {
 
@@ -28,11 +25,15 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends IServ
         return converter.toDto(service.getEntityById(id));
     }
 
-    @GetMapping(value = "/{pages}&{pageSize}")
-    public List<DTO> getSimpleOrderedBy(@PathVariable Integer pages, @PathVariable Integer pageSize, BiFunction<Integer,Integer, List<T>> orderFunction) {
-        return converter.listToDto(orderFunction.apply(pages, pageSize));
+    @GetMapping(value = "/{sort}")
+    public List<DTO> getSimpleSort(@PathVariable String sort) {
+        return converter.listToDto(service.getSimpleSort(sort));
     }
 
+    @GetMapping(value = "/{sort}/{pages}/{pageSize}")
+    public List<DTO> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return converter.listToDto(service.getSimpleSortPaging(sort, pages, pageSize).getContent());
+    }
 
     @PostMapping(value = "")
     public DTO add(@RequestBody DTO dto) {
@@ -46,14 +47,10 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends IServ
         return result;
     }
 
+
     @DeleteMapping(value = "/{id}")
     public Long deleteById(@PathVariable Long id) {
         return service.deleteEntityById(id);
-    }
-
-    @PostMapping(value = "/group")
-    public <A> List<DTO> getEntitiesByList(@RequestBody List<A> list, Function<List<A>, List<T>> getGroupFunction) {
-        return converter.listToDto(getGroupFunction.apply(list));
     }
 
 }

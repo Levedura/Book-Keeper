@@ -1,9 +1,9 @@
 package bookers.bookkeeper.book.dto;
 
-import bookers.bookkeeper.generics.ConverterImpl;
 import bookers.bookkeeper.author.dto.AuthorDTOConverter;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.enums.Genres;
+import bookers.bookkeeper.generics.ConverterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

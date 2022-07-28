@@ -16,37 +16,18 @@ public class BookController extends BaseController<Book, BookDTO, BookDTOConvert
     }
 
     @PostMapping(value = "/authors")
-    public List<BookDTO> getBooksByAuthor(List<Long> authorIds) {
-        return super.getEntitiesByList(authorIds, service::getBooksByAuthorIds);
+    public List<BookDTO> getBooksByAuthor(@RequestBody List<Long> authorIds) {
+        return converter.listToDto(service.getBooksByAuthorIds(authorIds));
     }
 
     @PostMapping(value = "/genres")
-    public List<BookDTO> getBooksByGenre(List<String> genres) {
-        return super.getEntitiesByList(genres, service::getBookByGenres);
+    public List<BookDTO> getBooksByGenre(@RequestBody List<String> genres) {
+        return converter.listToDto(service.getBookByGenres(genres));
     }
 
     @GetMapping(value = "/author/{id}")
     public List<BookDTO> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
         return converter.listToDto(service.getBookByAuthorId(authorId));
     }
-
-    @GetMapping(value = "/score")
-    public List<BookDTO> getBooksOrderedByScore(Integer pages, Integer pageSize) {
-        //Change this
-        return super.getSimpleOrderedBy(pages, pageSize, service::getBooksOrderedByScore);
-    }
-
-    @GetMapping(value = "/npages")
-    public List<BookDTO> getBooksOrderedByPages(Integer pages, Integer pageSize) {
-        //Change this
-        return super.getSimpleOrderedBy(pages, pageSize, service::getBooksOrderedByPages);
-    }
-
-    @GetMapping(value = "/title")
-    public List<BookDTO> getBooksOrderedByTitle(Integer pages, Integer pageSize) {
-        //Change this
-        return super.getSimpleOrderedBy(pages, pageSize, service::getBooksOrderedByTitle);
-    }
-
 
 }

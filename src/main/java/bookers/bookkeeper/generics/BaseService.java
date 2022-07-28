@@ -1,7 +1,9 @@
 package bookers.bookkeeper.generics;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.function.Function;
@@ -40,5 +42,13 @@ public abstract class BaseService<T, Repository extends GenericRepository<T>> im
         return func.apply(page);
     }
 
+    public List<T> getSimpleSort(String sort) {
+        return rep.findAll(Sort.by(sort));
+    }
+
+    public Page<T> getSimpleSortPaging(String sort, Integer pages, Integer pageSize) {
+        Pageable page = PageRequest.of(pages, pageSize, Sort.by(sort));
+        return rep.findAll(page);
+    }
 
 }
