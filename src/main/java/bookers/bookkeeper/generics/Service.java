@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.function.Function;
 
-public interface IService<T> {
+public interface Service<T> {
     List<T> getAllEntities();
 
     T getEntityById(Long id);

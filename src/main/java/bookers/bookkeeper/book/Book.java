@@ -44,5 +44,7 @@ public class Book extends RepresentationModel<Book> {
     @Column(name = "score")
     private Float globalscore;
 
+    private String synopsis;
+
 
 }

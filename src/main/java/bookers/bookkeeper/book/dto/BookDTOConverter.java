@@ -7,8 +7,6 @@ import bookers.bookkeeper.generics.ConverterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
 
@@ -24,10 +22,11 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
         bookDto.setTitle(book.getTitle());
         bookDto.setCover(book.getCover());
         bookDto.setAuthors(authorDtoConverter.listToDto(book.getAuthors()));
-        bookDto.setGenres(book.getGenres().stream().map(Genres::getName).collect(Collectors.toList()));
+        bookDto.setGenres(Genres.listToValue(book.getGenres()));
         bookDto.setLanguage(book.getLanguage());
         bookDto.setPages(book.getPages());
         bookDto.setGlobalscore(book.getGlobalscore());
+        bookDto.setSynopsis(book.getSynopsis());
         return bookDto;
     }
 
@@ -36,10 +35,13 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
         book.setTitle(bookDto.getTitle());
         book.setAuthors(authorDtoConverter.listFromDto(bookDto.getAuthors()));
         book.setCover(bookDto.getCover());
-        book.setGenres(bookDto.getGenres().stream().map(Genres::valueOf).collect(Collectors.toList()));
+        book.setGenres(Genres.listToGenres(bookDto.getGenres()));
         book.setLanguage(bookDto.getLanguage());
         book.setPages(bookDto.getPages());
         book.setGlobalscore(bookDto.getGlobalscore());
+        book.setSynopsis(bookDto.getSynopsis());
+
         return book;
     }
+
 }

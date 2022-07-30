@@ -7,11 +7,12 @@ import java.util.List;
 
 @Data
 public class BookDTO {
-    String title;
-    String cover;
-    List<AuthorDTO> authors;
-    List<String> genres;
-    String language;
-    Integer pages;
-    Float globalscore;
+    private String title;
+    private String cover;
+    private List<AuthorDTO> authors;
+    private List<String> genres;
+    private String language;
+    private Integer pages;
+    private Float globalscore;
+    private String synopsis;
 }

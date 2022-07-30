@@ -19,6 +19,7 @@ public class BookEntryDTOConverter extends ConverterImpl<BookEntry, BookEntryDTO
     @Override
     public BookEntryDTO toDto(BookEntry bookEntry) {
         BookEntryDTO bookEntryDTO = new BookEntryDTO();
+        bookEntryDTO.setUsername(bookEntry.getUser().getUsername());
         bookEntryDTO.setUserscore(bookEntry.getUserscore());
         bookEntryDTO.setBook(bookDTOConverter.toDto(bookEntry.getBook()));
         bookEntryDTO.setDateAdded(bookEntry.getDateAdded());

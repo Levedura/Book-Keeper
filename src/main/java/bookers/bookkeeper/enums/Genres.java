@@ -2,6 +2,9 @@ package bookers.bookkeeper.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public enum Genres {
 
@@ -44,5 +47,14 @@ public enum Genres {
     @JsonValue
     public String toString() {
         return name;
+    }
+
+    //Find a way to remove this later.
+    public static List<String> listToValue(List<Genres> genres) {
+        return genres.stream().map(Genres::toString).collect(Collectors.toList());
+    }
+
+    public static List<Genres> listToGenres(List<String> genresString) {
+        return genresString.stream().map(Genres::valueOf).collect(Collectors.toList());
     }
 }

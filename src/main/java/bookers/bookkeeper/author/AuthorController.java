@@ -4,12 +4,8 @@ import bookers.bookkeeper.author.dto.AuthorDTO;
 import bookers.bookkeeper.author.dto.AuthorDTOConverter;
 import bookers.bookkeeper.generics.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
@@ -30,7 +26,6 @@ public class AuthorController extends BaseController<Author, AuthorDTO, AuthorDT
         authorDto.add(test);
         return authorDto;
     }*/
-
 
 
 }

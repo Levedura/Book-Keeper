@@ -14,7 +14,7 @@ public class BookEntryDTO {
     private float userscore;
 
     private BookDTO book;
-
+    private String username;
     private Integer pagesRead;
 
     private Date dateAdded;

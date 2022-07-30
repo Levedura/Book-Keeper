@@ -14,12 +14,12 @@ public enum Status {
         this.name = name;
     }
 
+    @JsonValue
     public String getName() {
         return name;
     }
 
     @Override
-    @JsonValue
     public String toString() {
         return this.name;
     }

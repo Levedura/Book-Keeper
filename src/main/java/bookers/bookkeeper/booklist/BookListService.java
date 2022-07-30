@@ -6,9 +6,13 @@ import bookers.bookkeeper.generics.BaseService;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookListService extends BaseService<BookEntry, BookListRepository> {
@@ -28,15 +32,6 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         return userService.getUserByNameWithCheck(username).getUserlist();
     }
 
-    public boolean userListContainsBook(User user, Book book) {
-        for (BookEntry userbook : user.getUserlist()) {
-            if (userbook.getBook().equals(book)) {
-                return true;
-            }
-        }
-        return false;
-
-    }
 
     public BookEntry updateBookEntry(Long entryId, BookEntry bookEntry, String username) {
 
@@ -58,7 +53,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     public BookEntry addBookEntry(BookEntry bookEntry, String username, Long bookId) {
         User user = userService.getUserByNameWithCheck(username);
         Book bookToAdd = bookService.getBook(bookId);
-        if (userListContainsBook(user, bookToAdd)) {
+        if (getUserListBooks(username).contains(bookToAdd)) {
             throw new IllegalStateException("Book already in list");
         }
         bookEntry.setBook(bookToAdd);
@@ -74,4 +69,12 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     }
 
 
+    private List<Book> getUserListBooks(String username) {
+        return getUserList(username).stream().map(BookEntry::getBook).collect(Collectors.toList());
+    }
+
+    public List<BookEntry> getUserListSorted(String username, String sort, Integer pages, Integer pageSize) {
+        Pageable page = PageRequest.of(pages, pageSize,Sort.by(sort));
+        return rep.findBookEntriesByUser_Username(username,page);
+    }
 }

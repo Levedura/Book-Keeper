@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class BaseService<T, Repository extends GenericRepository<T>> implements IService<T> {
+public abstract class BaseService<T, Repository extends GenericRepository<T>> implements Service<T> {
 
     private static final String ERROR_MESSAGE = "Entity not found";
     protected final Repository rep;
