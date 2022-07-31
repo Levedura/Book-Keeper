@@ -16,7 +16,7 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
         super(service, converter);
     }
 
-    @GetMapping("/u={username}")
+    @GetMapping("/{username}")
     public List<BookEntryDTO> getUserListByName(@PathVariable(name = "username") String username) {
         return converter.listToDto(service.getUserList(username));
     }
@@ -35,7 +35,7 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
     @PutMapping("/{username}/{id}")
     @PreAuthorize(value = "authentication.principal.username == #username")
     public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody BookEntryDTO bookEntryDto, @PathVariable String username) {
-        return converter.toDto(service.updateBookEntry(id, converter.fromDto(bookEntryDto), username));
+        return converter.toDto(service.updateBookEntry(id, converter.fromDto(bookEntryDto)));
     }
 
     @DeleteMapping("/{username}/{id}")

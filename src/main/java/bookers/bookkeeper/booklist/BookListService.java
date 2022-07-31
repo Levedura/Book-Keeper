@@ -33,21 +33,15 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     }
 
 
-    public BookEntry updateBookEntry(Long entryId, BookEntry bookEntry, String username) {
-
-        User user = userService.getUserByNameWithCheck(username);
+    public BookEntry updateBookEntry(Long entryId, BookEntry bookEntry) {
         BookEntry bookEntryFound = getEntityById(entryId);
-
-        List<BookEntry> userList = user.getUserlist();
-        int index = userList.indexOf(bookEntryFound);
-        BookEntry bookEntryToChange = userList.get(index);
-
-        bookEntryToChange.setPagesRead(bookEntry.getPagesRead());
-        bookEntryToChange.setUserscore(bookEntry.getUserscore());
-        bookEntryToChange.setStatus(bookEntry.getStatus());
-
-        userService.saveUser(user);
-        return user.getUserlist().get(index);
+        bookEntryFound.setDateAdded(bookEntry.getDateAdded());
+        bookEntryFound.setDateFinished(bookEntry.getDateFinished());
+        bookEntryFound.setNotes(bookEntry.getNotes());
+        bookEntryFound.setPagesRead(bookEntry.getPagesRead());
+        bookEntryFound.setUserscore(bookEntry.getUserscore());
+        bookEntryFound.setStatus(bookEntry.getStatus());
+        return rep.save(bookEntryFound);
     }
 
     public BookEntry addBookEntry(BookEntry bookEntry, String username, Long bookId) {
@@ -58,9 +52,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         }
         bookEntry.setBook(bookToAdd);
         bookEntry.setUser(user);
-        rep.save(bookEntry);
-        //userService.saveUser(user);
-        return bookEntry;
+        return rep.save(bookEntry);
     }
 
 

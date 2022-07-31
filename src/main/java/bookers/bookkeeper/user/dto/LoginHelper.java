@@ -1,4 +1,4 @@
-package bookers.bookkeeper.user;
+package bookers.bookkeeper.user.dto;
 
 import lombok.Data;
 

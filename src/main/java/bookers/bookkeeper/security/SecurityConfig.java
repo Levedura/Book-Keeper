@@ -1,5 +1,6 @@
 package bookers.bookkeeper.security;
 
+import bookers.bookkeeper.user.UserRepository;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    UserService userService;
+    private final UserService userService;
 
     @Autowired
     public SecurityConfig(UserService userService) {
@@ -33,7 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //.antMatchers("/authors","/books","/login","/booklist").hasRole("USER").
-                .antMatchers("/*", "/**").permitAll().and().csrf().disable();
+                .antMatchers("/*", "/**")
+                .permitAll()
+                .and()
+                .csrf()
+                .disable();
 
 /*
 
@@ -54,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

@@ -1,37 +1,40 @@
 package bookers.bookkeeper.user;
 
 import bookers.bookkeeper.generics.BaseService;
+import bookers.bookkeeper.security.SecurityConfig;
+import bookers.bookkeeper.user.dto.LoginHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
+import static bookers.bookkeeper.security.SecurityConfig.passwordEncoder;
 
 @Service
 public class UserService extends BaseService<User, UserRepository> implements UserDetailsService {
 
+    private static final String DEFAULT_AUTHORITY = "USER";
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        super(userRepository);
+    public UserService(UserRepository rep) {
+        super(rep);
     }
 
     public User updateUser(String userName, LoginHelper user) {
         User foundUser = getUserByNameWithCheck(userName);
         foundUser.setUsername(user.getUsername());
-        foundUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        foundUser.setPassword(passwordEncoder().encode(user.getPassword()));
         if (user.getEmail() != null) {
             foundUser.setEmail(user.getEmail());
         }
-        saveUser(foundUser);
+        rep.save(foundUser);
         return foundUser;
     }
 
@@ -43,11 +46,15 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         return found.get();
     }
 
-    public User saveUser(User user) {
+    public User registerUser(LoginHelper registerData) {
         Collection<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
+        User user = new User();
+        authorities.add(new SimpleGrantedAuthority(DEFAULT_AUTHORITY));
+        user.setUsername(registerData.getUsername());
+        user.setEmail(registerData.getEmail());
+        user.setUserlist(new ArrayList<>());
         user.setAuthorities(authorities);
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder().encode(registerData.getPassword()));
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setEnabled(true);
@@ -61,7 +68,4 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         return getUserByNameWithCheck(username);
     }
 
-    public List<User> getUsers() {
-        return rep.findAll();
-    }
 }

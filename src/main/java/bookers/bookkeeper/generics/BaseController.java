@@ -25,7 +25,7 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Servi
         return converter.toDto(service.getEntityById(id));
     }
 
-    @GetMapping(value = "/{sort}")
+    @GetMapping(value = "sortBy/{sort}")
     public List<DTO> getSimpleSort(@PathVariable String sort) {
         return converter.listToDto(service.getSimpleSort(sort));
     }

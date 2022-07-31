@@ -1,9 +1,11 @@
 package bookers.bookkeeper.user;
 
 import bookers.bookkeeper.generics.BaseController;
+import bookers.bookkeeper.user.dto.LoginHelper;
 import bookers.bookkeeper.user.dto.UserDTO;
 import bookers.bookkeeper.user.dto.UserDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,9 +26,9 @@ public class UserController extends BaseController<User, UserDTO, UserDTOConvert
     }
 
     @PutMapping("/{username}")
-    @PreAuthorize(value = "authentication.principal.username== #userName")
-    public User updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user) {
-        return service.updateUser(userName, user);
+    @PreAuthorize("authentication.name == #userName")
+    public UserDTO updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user) {
+        return converter.toDto(service.updateUser(userName, user));
     }
 
     @PostMapping("/login")
@@ -42,7 +44,7 @@ public class UserController extends BaseController<User, UserDTO, UserDTOConvert
     }
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        return service.saveUser(user);
+    public UserDTO registerUser(@RequestBody LoginHelper user) {
+        return converter.toDto(service.registerUser(user));
     }
 }

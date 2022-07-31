@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface BookListRepository extends GenericRepository<BookEntry> {
-    List<BookEntry> findBookEntriesByUser_Username(String username);
-
     List<BookEntry> findBookEntriesByUser_Username(String username, Pageable page);
 }
