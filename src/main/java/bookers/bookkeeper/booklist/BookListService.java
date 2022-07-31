@@ -74,7 +74,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     }
 
     public List<BookEntry> getUserListSorted(String username, String sort, Integer pages, Integer pageSize) {
-        Pageable page = PageRequest.of(pages, pageSize,Sort.by(sort));
-        return rep.findBookEntriesByUser_Username(username,page);
+        Pageable page = PageRequest.of(pages, pageSize, Sort.by(sort));
+        return rep.findBookEntriesByUser_Username(username, page);
     }
 }

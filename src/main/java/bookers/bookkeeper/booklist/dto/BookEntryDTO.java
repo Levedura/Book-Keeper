@@ -14,7 +14,9 @@ public class BookEntryDTO {
     private float userscore;
 
     private BookDTO book;
+
     private String username;
+
     private Integer pagesRead;
 
     private Date dateAdded;
@@ -23,6 +25,9 @@ public class BookEntryDTO {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    private String notes;
+
 
 }
 

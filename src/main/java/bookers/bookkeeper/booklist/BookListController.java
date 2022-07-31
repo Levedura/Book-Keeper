@@ -23,7 +23,7 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
 
     @GetMapping("/{username}/{sort}/{pages}/{pageSize}")
     public List<BookEntryDTO> getSimpleSortPaging(@PathVariable String username, @PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return converter.listToDto(service.getUserListSorted(username,sort,pages,pageSize));
+        return converter.listToDto(service.getUserListSorted(username, sort, pages, pageSize));
     }
 
     @PostMapping("/{username}/{bookID}")

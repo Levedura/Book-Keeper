@@ -29,7 +29,6 @@ public class UserController extends BaseController<User, UserDTO, UserDTOConvert
         return service.updateUser(userName, user);
     }
 
-
     @PostMapping("/login")
     public String loginUser(@RequestBody LoginHelper credentials) {
 
@@ -37,7 +36,7 @@ public class UserController extends BaseController<User, UserDTO, UserDTOConvert
         Authentication auth = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(auth);
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            return "Logged In :) ";
+            return "Logged In ";
         }
         return "Could not authenticate user";
     }

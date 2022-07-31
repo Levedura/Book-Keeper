@@ -52,4 +52,6 @@ public class BookEntry {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private String notes;
+
 }

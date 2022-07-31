@@ -40,7 +40,6 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
         book.setPages(bookDto.getPages());
         book.setGlobalscore(bookDto.getGlobalscore());
         book.setSynopsis(bookDto.getSynopsis());
-
         return book;
     }
 

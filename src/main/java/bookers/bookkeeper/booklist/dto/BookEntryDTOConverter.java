@@ -26,6 +26,7 @@ public class BookEntryDTOConverter extends ConverterImpl<BookEntry, BookEntryDTO
         bookEntryDTO.setDateFinished(bookEntry.getDateFinished());
         bookEntryDTO.setPagesRead(bookEntry.getPagesRead());
         bookEntryDTO.setStatus(bookEntry.getStatus());
+        bookEntryDTO.setNotes(bookEntry.getNotes());
         return bookEntryDTO;
     }
 
@@ -37,7 +38,7 @@ public class BookEntryDTOConverter extends ConverterImpl<BookEntry, BookEntryDTO
         bookEntry.setUserscore(bookEntryDto.getUserscore());
         bookEntry.setPagesRead(bookEntryDto.getPagesRead());
         bookEntry.setStatus(bookEntryDto.getStatus());
+        bookEntry.setNotes(bookEntryDto.getNotes());
         return bookEntry;
-
     }
 }
