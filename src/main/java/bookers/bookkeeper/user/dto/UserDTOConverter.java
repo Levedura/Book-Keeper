@@ -21,7 +21,7 @@ public class UserDTOConverter extends ConverterImpl<User, UserDTO> {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
-        if(user.getUserlist() != null){
+        if (user.getUserlist() != null) {
             userDTO.setUserlist(bookEntryDTOConverter.listToDto(user.getUserlist()));
         }
         return userDTO;

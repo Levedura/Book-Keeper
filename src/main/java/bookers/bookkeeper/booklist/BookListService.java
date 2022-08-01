@@ -2,6 +2,7 @@ package bookers.bookkeeper.booklist;
 
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.book.BookService;
+import bookers.bookkeeper.booklist.dto.AddEntryDTO;
 import bookers.bookkeeper.generics.BaseService;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
@@ -39,19 +40,27 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         bookEntryFound.setDateFinished(bookEntry.getDateFinished());
         bookEntryFound.setNotes(bookEntry.getNotes());
         bookEntryFound.setPagesRead(bookEntry.getPagesRead());
-        bookEntryFound.setUserscore(bookEntry.getUserscore());
+        bookEntryFound.setUserScore(bookEntry.getUserScore());
         bookEntryFound.setStatus(bookEntry.getStatus());
         return rep.save(bookEntryFound);
     }
 
-    public BookEntry addBookEntry(BookEntry bookEntry, String username, Long bookId) {
+    public BookEntry addBookEntry(AddEntryDTO addEntryDTO, String username) {
         User user = userService.getUserByNameWithCheck(username);
-        Book bookToAdd = bookService.getBook(bookId);
+        Book bookToAdd = bookService.getBook(addEntryDTO.getBookId());
+        BookEntry bookEntry = new BookEntry();
         if (getUserListBooks(username).contains(bookToAdd)) {
             throw new IllegalStateException("Book already in list");
         }
         bookEntry.setBook(bookToAdd);
         bookEntry.setUser(user);
+        bookEntry.setDateAdded(addEntryDTO.getDateAdded());
+        bookEntry.setDateFinished(addEntryDTO.getDateFinished());
+        bookEntry.setNotes(addEntryDTO.getNotes());
+        bookEntry.setStatus(addEntryDTO.getStatus());
+        bookEntry.setPagesRead(addEntryDTO.getPagesRead());
+        bookEntry.setUserScore(addEntryDTO.getUserScore());
+
         return rep.save(bookEntry);
     }
 

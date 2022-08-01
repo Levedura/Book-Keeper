@@ -3,7 +3,6 @@ package bookers.bookkeeper.booklist;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.user.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -35,17 +34,15 @@ public class BookEntry {
     private User user;
 
     @Column(name = "score")
-    private float userscore;
+    private float userScore;
 
     @Column(name = "pages_read")
     private Integer pagesRead;
 
     @Column(name = "date_added")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateAdded;
 
     @Column(name = "date_finished")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateFinished;
 
 

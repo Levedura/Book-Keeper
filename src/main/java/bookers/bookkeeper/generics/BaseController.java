@@ -20,7 +20,7 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Servi
         return converter.listToDto(service.getAllEntities());
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/id={id}")
     public DTO getById(@PathVariable Long id) {
         return converter.toDto(service.getEntityById(id));
     }

@@ -1,6 +1,5 @@
 package bookers.bookkeeper.security;
 
-import bookers.bookkeeper.user.UserRepository;
 import bookers.bookkeeper.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public SecurityConfig(UserService userService) {
         this.userService = userService;
+    }
+
+    @Bean
+    public static BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -56,11 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected AuthenticationManager getAuthenticationManager() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public static BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }

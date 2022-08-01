@@ -19,6 +19,7 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
 
     public BookDTO toDto(Book book) {
         BookDTO bookDto = new BookDTO();
+        bookDto.setId(book.getId());
         bookDto.setTitle(book.getTitle());
         bookDto.setCover(book.getCover());
         bookDto.setAuthors(authorDtoConverter.listToDto(book.getAuthors()));
@@ -32,6 +33,7 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
 
     public Book fromDto(BookDTO bookDto) {
         Book book = new Book();
+        book.setId(bookDto.getId());
         book.setTitle(bookDto.getTitle());
         book.setAuthors(authorDtoConverter.listFromDto(bookDto.getAuthors()));
         book.setCover(bookDto.getCover());

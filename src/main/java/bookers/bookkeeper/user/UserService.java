@@ -1,7 +1,6 @@
 package bookers.bookkeeper.user;
 
 import bookers.bookkeeper.generics.BaseService;
-import bookers.bookkeeper.security.SecurityConfig;
 import bookers.bookkeeper.user.dto.LoginHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+
 import static bookers.bookkeeper.security.SecurityConfig.passwordEncoder;
 
 @Service

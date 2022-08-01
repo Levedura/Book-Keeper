@@ -1,5 +1,6 @@
 package bookers.bookkeeper.booklist;
 
+import bookers.bookkeeper.booklist.dto.AddEntryDTO;
 import bookers.bookkeeper.booklist.dto.BookEntryDTO;
 import bookers.bookkeeper.booklist.dto.BookEntryDTOConverter;
 import bookers.bookkeeper.generics.BaseController;
@@ -26,20 +27,20 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
         return converter.listToDto(service.getUserListSorted(username, sort, pages, pageSize));
     }
 
-    @PostMapping("/{username}/{bookID}")
-    @PreAuthorize(value = "authentication.principal.username == #username")
-    public BookEntryDTO addBookEntry(@PathVariable(name = "username") String username, @RequestBody BookEntryDTO bookEntryDto, @PathVariable Long bookID) {
-        return converter.toDto(service.addBookEntry(converter.fromDto(bookEntryDto), username, bookID));
+    @PostMapping("/{username}")
+    @PreAuthorize("authentication.name == #username")
+    public BookEntryDTO addBookEntry(@PathVariable(name = "username") String username, @RequestBody AddEntryDTO bookEntryDto) {
+        return converter.toDto(service.addBookEntry(bookEntryDto, username));
     }
 
     @PutMapping("/{username}/{id}")
-    @PreAuthorize(value = "authentication.principal.username == #username")
+    @PreAuthorize("authentication.name == #username")
     public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody BookEntryDTO bookEntryDto, @PathVariable String username) {
         return converter.toDto(service.updateBookEntry(id, converter.fromDto(bookEntryDto)));
     }
 
     @DeleteMapping("/{username}/{id}")
-    @PreAuthorize(value = "authentication.principal.username == #username")
+    @PreAuthorize("authentication.name == #username")
     public Long deleteBookEntry(@PathVariable Long id, @PathVariable String username) {
         return service.deleteEntry(id);
     }
