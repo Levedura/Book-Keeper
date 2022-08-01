@@ -3,6 +3,7 @@ package bookers.bookkeeper.booklist;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.book.BookService;
 import bookers.bookkeeper.booklist.dto.AddEntryDTO;
+import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.generics.BaseService;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
@@ -35,7 +36,6 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     public List<BookEntry> getUserList(String username) {
         return userService.getUserByNameWithCheck(username).getUserlist();
     }
-
 
     public BookEntry updateBookEntry(Long entryId, Map<String, Object> bookEntry) {
         BookEntry bookEntryFound = getEntityById(entryId);
@@ -79,5 +79,10 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     public List<BookEntry> getUserListSorted(String username, String sort, Integer pages, Integer pageSize) {
         Pageable page = PageRequest.of(pages, pageSize, Sort.by(sort));
         return rep.findBookEntriesByUser_Username(username, page);
+    }
+
+    public List<BookEntry> getUserListByStatus(String username, Status status ){
+        return rep.findBookEntriesByUser_UsernameAndStatus(username,status);
+
     }
 }

@@ -10,11 +10,6 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends GenericRepository<Book> {
-    List<Book> findByOrderByGlobalscore(Pageable page);
-
-    List<Book> findByOrderByPages(Pageable page);
-
-    List<Book> findByOrderByTitle(Pageable page);
 
     @Query(value = "select * from book_authors inner join book on book.id = books_id where authors_id in ?1", nativeQuery = true)
     List<Book> findByAuthors(List<Long> authors);

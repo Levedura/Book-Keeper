@@ -3,6 +3,7 @@ package bookers.bookkeeper.booklist;
 import bookers.bookkeeper.booklist.dto.AddEntryDTO;
 import bookers.bookkeeper.booklist.dto.BookEntryDTO;
 import bookers.bookkeeper.booklist.dto.BookEntryDTOConverter;
+import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.generics.BaseController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,13 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
     }
 
     @GetMapping("/{username}")
-    public List<BookEntryDTO> getUserListByName(@PathVariable(name = "username") String username) {
+    public List<BookEntryDTO> getUserList(@PathVariable(name = "username") String username) {
         return converter.listToDto(service.getUserList(username));
+    }
+
+    @GetMapping("/{username}/{status}")
+    public List<BookEntryDTO> getUserListByStatus(@PathVariable(name = "username") String username, @PathVariable String status) {
+        return converter.listToDto(service.getUserListByStatus(username, Status.valueOf(status)));
     }
 
     @GetMapping("/{username}/{sort}/{pages}/{pageSize}")
@@ -34,14 +40,6 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
         return converter.toDto(service.addBookEntry(bookEntryDto, username));
     }
 
-    /*
-
-        @PatchMapping("/{username}/{id}")
-        @PreAuthorize("authentication.name == #username")
-        public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody AddEntryDTO bookEntryDto, @PathVariable String username) {
-            return converter.toDto(service.updateBookEntry(id, bookEntryDto));
-        }
-    */
     @PatchMapping("/{username}/{id}")
     @PreAuthorize("authentication.name == #username")
     public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody Map<String, Object> fieldMap, @PathVariable String username) {
