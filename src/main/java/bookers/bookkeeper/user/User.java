@@ -1,6 +1,7 @@
 package bookers.bookkeeper.user;
 
 import bookers.bookkeeper.booklist.BookEntry;
+import bookers.bookkeeper.userprofile.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,7 +50,6 @@ public class User implements UserDetails {
     private Boolean accountNonLocked;
     @JsonIgnore
     private Boolean isCredentialsNonExpired;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

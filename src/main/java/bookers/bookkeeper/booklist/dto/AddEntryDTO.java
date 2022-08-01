@@ -22,6 +22,6 @@ public class AddEntryDTO {
 
     private String notes;
 
-    private float userScore;
+    private Float userScore;
 
 }

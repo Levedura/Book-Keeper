@@ -35,7 +35,7 @@ public class BookEntry {
     private User user;
 
     @Column(name = "score")
-    private float userScore;
+    private Float userScore;
 
     @Column(name = "pages_read")
     private Integer pagesRead;

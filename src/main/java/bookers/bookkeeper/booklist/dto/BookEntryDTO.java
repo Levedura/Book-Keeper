@@ -12,7 +12,7 @@ import java.sql.Date;
 @Data
 public class BookEntryDTO {
 
-    private float userScore;
+    private Float userScore;
 
     private BookDTO book;
 
