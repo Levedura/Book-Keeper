@@ -12,11 +12,11 @@ import java.sql.Date;
 @Data
 public class BookEntryDTO {
 
-    private float userscore;
+    private float userScore;
 
     private BookDTO book;
 
-    private String username;
+    private String userName;
 
     private Integer pagesRead;
 

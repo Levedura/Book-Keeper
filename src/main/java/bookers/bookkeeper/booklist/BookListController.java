@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/userlist")
@@ -33,10 +34,18 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
         return converter.toDto(service.addBookEntry(bookEntryDto, username));
     }
 
-    @PutMapping("/{username}/{id}")
+    /*
+
+        @PatchMapping("/{username}/{id}")
+        @PreAuthorize("authentication.name == #username")
+        public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody AddEntryDTO bookEntryDto, @PathVariable String username) {
+            return converter.toDto(service.updateBookEntry(id, bookEntryDto));
+        }
+    */
+    @PatchMapping("/{username}/{id}")
     @PreAuthorize("authentication.name == #username")
-    public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody BookEntryDTO bookEntryDto, @PathVariable String username) {
-        return converter.toDto(service.updateBookEntry(id, converter.fromDto(bookEntryDto)));
+    public BookEntryDTO updateBookEntry(@PathVariable Long id, @RequestBody Map<String, Object> fieldMap, @PathVariable String username) {
+        return converter.toDto(service.updateBookEntry(id, fieldMap));
     }
 
     @DeleteMapping("/{username}/{id}")

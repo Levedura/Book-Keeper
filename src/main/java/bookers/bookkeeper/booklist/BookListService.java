@@ -11,8 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,14 +37,13 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     }
 
 
-    public BookEntry updateBookEntry(Long entryId, BookEntry bookEntry) {
+    public BookEntry updateBookEntry(Long entryId, Map<String, Object> bookEntry) {
         BookEntry bookEntryFound = getEntityById(entryId);
-        bookEntryFound.setDateAdded(bookEntry.getDateAdded());
-        bookEntryFound.setDateFinished(bookEntry.getDateFinished());
-        bookEntryFound.setNotes(bookEntry.getNotes());
-        bookEntryFound.setPagesRead(bookEntry.getPagesRead());
-        bookEntryFound.setUserScore(bookEntry.getUserScore());
-        bookEntryFound.setStatus(bookEntry.getStatus());
+        bookEntry.forEach((getterName, updateValue) -> {
+            Field field = ReflectionUtils.findField(BookEntry.class, getterName);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, bookEntryFound, updateValue);
+        });
         return rep.save(bookEntryFound);
     }
 

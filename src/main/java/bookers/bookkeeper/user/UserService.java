@@ -29,8 +29,12 @@ public class UserService extends BaseService<User, UserRepository> implements Us
 
     public User updateUser(String userName, LoginHelper user) {
         User foundUser = getUserByNameWithCheck(userName);
-        foundUser.setUsername(user.getUsername());
-        foundUser.setPassword(passwordEncoder().encode(user.getPassword()));
+        if (user.getUsername() != null) {
+            foundUser.setUsername(user.getUsername());
+        }
+        if (user.getPassword() != null) {
+            foundUser.setPassword(passwordEncoder().encode(user.getPassword()));
+        }
         if (user.getEmail() != null) {
             foundUser.setEmail(user.getEmail());
         }
