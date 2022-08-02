@@ -1,7 +1,6 @@
 package bookers.bookkeeper.user;
 
 import bookers.bookkeeper.booklist.BookEntry;
-import bookers.bookkeeper.userprofile.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

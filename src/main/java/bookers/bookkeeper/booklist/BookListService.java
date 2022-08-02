@@ -7,7 +7,6 @@ import bookers.bookkeeper.enums.Status;
 import bookers.bookkeeper.generics.BaseService;
 import bookers.bookkeeper.user.User;
 import bookers.bookkeeper.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,13 +24,11 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
     private final UserService userService;
     private final BookService bookService;
 
-    @Autowired
-    public BookListService(UserService userService, BookService bookService, BookListRepository bookListService) {
-        super(bookListService);
+    public BookListService(BookListRepository rep, UserService userService, BookService bookService) {
+        super(rep);
         this.userService = userService;
         this.bookService = bookService;
     }
-
 
     public List<BookEntry> getUserList(String username) {
         return userService.getUserByNameWithCheck(username).getUserlist();
@@ -81,8 +78,10 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         return rep.findBookEntriesByUser_Username(username, page);
     }
 
-    public List<BookEntry> getUserListByStatus(String username, Status status ){
-        return rep.findBookEntriesByUser_UsernameAndStatus(username,status);
+    public List<BookEntry> getUserListByStatus(String username, Status status) {
+        return rep.findBookEntriesByUser_UsernameAndStatus(username, status);
 
     }
+
+
 }

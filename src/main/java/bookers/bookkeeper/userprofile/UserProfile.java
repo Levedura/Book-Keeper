@@ -1,5 +1,6 @@
 package bookers.bookkeeper.userprofile;
 
+import bookers.bookkeeper.author.Author;
 import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.user.User;
 import lombok.Data;
@@ -25,5 +26,8 @@ public class UserProfile {
     Integer booksRead;
 
     @OneToMany
-    List<Book> favorites;
+    List<Book> favoriteBooks;
+
+    @OneToMany
+    List<Author> favoriteAuthors;
 }
