@@ -24,8 +24,8 @@ public class UserProfileDTOConverter extends ConverterImpl<UserProfile, UserProf
     @Override
     public UserProfileDTO toDto(UserProfile userProfile) {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
-        userProfileDTO.setFavoriteBooks(checkNullArray(userProfile.getFavoriteBooks(),bookDTOConverter));
-        userProfileDTO.setFavoriteAuthors(checkNullArray(userProfile.getFavoriteAuthors(),authorDTOConverter));
+        userProfileDTO.setFavoriteBooks(checkNullArray(userProfile.getFavoriteBooks(), bookDTOConverter));
+        userProfileDTO.setFavoriteAuthors(checkNullArray(userProfile.getFavoriteAuthors(), authorDTOConverter));
 
         if (userProfile.getUser() != null) {
             userProfileDTO.setUserName(userProfile.getUser().getUsername());
@@ -47,10 +47,10 @@ public class UserProfileDTOConverter extends ConverterImpl<UserProfile, UserProf
         return userProfile;
     }
 
-    public <T,DTO> List<DTO> checkNullArray(List<T> l , Converter<T,DTO> converter){
-      if(l == null)  {
-         return new ArrayList<>() ;
-      }
-      return converter.listToDto(l);
+    public <T, DTO> List<DTO> checkNullArray(List<T> l, Converter<T, DTO> converter) {
+        if (l == null) {
+            return new ArrayList<>();
+        }
+        return converter.listToDto(l);
     }
 }

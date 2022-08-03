@@ -43,10 +43,13 @@ public class User implements UserDetails {
 
     @JsonIgnore
     private Boolean enabled;
+
     @JsonIgnore
     private Boolean accountNonExpired;
+
     @JsonIgnore
     private Boolean accountNonLocked;
+
     @JsonIgnore
     private Boolean isCredentialsNonExpired;
 

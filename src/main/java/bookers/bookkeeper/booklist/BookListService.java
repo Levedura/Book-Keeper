@@ -50,7 +50,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         Book bookToAdd = bookService.getBook(addEntryDTO.getBookId());
         BookEntry bookEntry = new BookEntry();
         if (getUserListBooks(username).contains(bookToAdd)) {
-            throw new IllegalStateException("Book already in list");
+            throw new IllegalStateException("Book is already on your list");
         }
         bookEntry.setUser(user);
         bookEntry.setDateAdded(addEntryDTO.getDateAdded());

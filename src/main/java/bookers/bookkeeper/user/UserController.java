@@ -39,7 +39,7 @@ public class UserController extends BaseController<User, UserDTO, UserDTOConvert
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             return "Logged In ";
         }
-        return "Could not authenticate user";
+        return "Could not authenticate user.";
     }
 
     @PostMapping("/register")

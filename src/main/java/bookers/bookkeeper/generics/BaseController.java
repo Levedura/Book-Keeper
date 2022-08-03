@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Service<T>> {
 
@@ -45,6 +46,11 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Servi
         List<DTO> result = new ArrayList<>();
         dtoList.forEach(dto -> result.add(add(dto)));
         return result;
+    }
+
+    @PatchMapping(value = "/{id}")
+    public DTO updateEntity(@PathVariable Long id, @RequestBody Map<String, Object> json) {
+        return converter.toDto(service.updateEntity(id, json));
     }
 
 

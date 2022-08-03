@@ -12,5 +12,5 @@ public class AuthorDTO extends RepresentationModel<AuthorDTO> {
     private Long id;
     private String name;
     private List<Long> books;
-    private Long favorites;
+    private Integer favorites;
 }

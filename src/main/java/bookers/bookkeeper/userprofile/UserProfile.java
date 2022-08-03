@@ -6,7 +6,6 @@ import bookers.bookkeeper.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity

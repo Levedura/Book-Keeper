@@ -4,8 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public abstract class BaseService<T, Repository extends GenericRepository<T>> implements Service<T> {
@@ -49,6 +52,16 @@ public abstract class BaseService<T, Repository extends GenericRepository<T>> im
     public Page<T> getSimpleSortPaging(String sort, Integer pages, Integer pageSize) {
         Pageable page = PageRequest.of(pages, pageSize, Sort.by(sort));
         return rep.findAll(page);
+    }
+
+    public T updateEntity(Long entryId, Map<String, Object> jsonMap) {
+        T entity = getEntityById(entryId);
+        jsonMap.forEach((getterName, updateValue) -> {
+            Field field = ReflectionUtils.findField(entity.getClass(), getterName);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, entity, updateValue);
+        });
+        return rep.save(entity);
     }
 
 }

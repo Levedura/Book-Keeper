@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public interface Service<T> {
@@ -20,4 +21,6 @@ public interface Service<T> {
     List<T> getSimpleSort(String sort);
 
     Page<T> getSimpleSortPaging(String sort, Integer pages, Integer pageSize);
+
+    T updateEntity(Long entityid, Map<String, Object> jsonMap);
 }

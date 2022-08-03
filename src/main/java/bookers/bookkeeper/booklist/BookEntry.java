@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity

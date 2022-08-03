@@ -6,8 +6,6 @@ import bookers.bookkeeper.generics.ConverterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
 public class BookEntryDTOConverter extends ConverterImpl<BookEntry, BookEntryDTO> {
 
@@ -21,6 +19,8 @@ public class BookEntryDTOConverter extends ConverterImpl<BookEntry, BookEntryDTO
     @Override
     public BookEntryDTO toDto(BookEntry bookEntry) {
         BookEntryDTO bookEntryDTO = new BookEntryDTO();
+
+        bookEntryDTO.setId(bookEntry.getId());
         bookEntryDTO.setUserName(bookEntry.getUser().getUsername());
         bookEntryDTO.setUserScore(bookEntry.getUserScore());
         bookEntryDTO.setBook(bookDTOConverter.toDto(bookEntry.getBook()));

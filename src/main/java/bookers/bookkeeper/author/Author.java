@@ -17,12 +17,14 @@ public class Author extends RepresentationModel<Author> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Book> books;
+
     @Column(name = "favorites")
-    private Long favorites;
+    private Integer favorites;
 
 }

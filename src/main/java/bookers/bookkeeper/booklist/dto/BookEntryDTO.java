@@ -7,13 +7,13 @@ import lombok.Data;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.math.BigDecimal;
 import java.sql.Date;
 
 @Data
 public class BookEntryDTO {
 
 
+    private Long id;
     private BookDTO book;
 
     private String userName;

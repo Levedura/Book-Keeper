@@ -27,7 +27,6 @@ public class BookService extends BaseService<Book, BookRepository> {
         return getEntityById(bookId);
     }
 
-
     public List<Book> getBookByGenres(List<String> genres) {
         return rep.findByGenres(genres, genres.size()).stream().map(super::getEntityById).collect(Collectors.toList());
     }

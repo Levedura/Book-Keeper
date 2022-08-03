@@ -4,7 +4,6 @@ import bookers.bookkeeper.author.dto.AuthorDTO;
 import bookers.bookkeeper.book.dto.BookDTO;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
