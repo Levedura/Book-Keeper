@@ -1,5 +1,6 @@
 package bookers.bookkeeper.book;
 
+import bookers.bookkeeper.enums.Genres;
 import bookers.bookkeeper.generics.GenericRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

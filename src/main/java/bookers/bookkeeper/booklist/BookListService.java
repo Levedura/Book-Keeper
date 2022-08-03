@@ -41,6 +41,7 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
             field.setAccessible(true);
             ReflectionUtils.setField(field, bookEntryFound, updateValue);
         });
+        bookEntryFound.getBook().setGlobalScore(rep.averageBookScore(bookEntryFound.getBook().getId()));
         return rep.save(bookEntryFound);
     }
 
@@ -51,7 +52,6 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         if (getUserListBooks(username).contains(bookToAdd)) {
             throw new IllegalStateException("Book already in list");
         }
-        bookEntry.setBook(bookToAdd);
         bookEntry.setUser(user);
         bookEntry.setDateAdded(addEntryDTO.getDateAdded());
         bookEntry.setDateFinished(addEntryDTO.getDateFinished());
@@ -59,6 +59,9 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         bookEntry.setStatus(addEntryDTO.getStatus());
         bookEntry.setPagesRead(addEntryDTO.getPagesRead());
         bookEntry.setUserScore(addEntryDTO.getUserScore());
+
+        bookToAdd.setGlobalScore(rep.averageBookScore(bookToAdd.getId()));
+        bookEntry.setBook(bookToAdd);
 
         return rep.save(bookEntry);
     }

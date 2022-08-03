@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -14,8 +15,11 @@ public interface BookListRepository extends GenericRepository<BookEntry> {
 
     List<BookEntry> findBookEntriesByUser_UsernameAndStatus(String username, Status status);
 
+    @Query(value = "select avg(b.userScore) from BookEntry b where b.book.id = ?1")
+    Double averageBookScore(Long bookId);
+
     @Query(value = "select avg (b.userScore) from BookEntry b where b.user.username like ?1")
-    Float averageUserScore(String username);
+    Double averageUserScore(String username);
 
 
     @Query(value = "select sum(b.pagesRead) from BookEntry b where b.user.username like ?1")

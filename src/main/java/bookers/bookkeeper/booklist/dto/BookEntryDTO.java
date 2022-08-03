@@ -7,12 +7,12 @@ import lombok.Data;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Data
 public class BookEntryDTO {
 
-    private Float userScore;
 
     private BookDTO book;
 
@@ -31,6 +31,7 @@ public class BookEntryDTO {
 
     private String notes;
 
+    private Double userScore;
 
 }
 

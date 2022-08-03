@@ -4,10 +4,12 @@ import bookers.bookkeeper.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Data
 public class AddEntryDTO {
+
     private Long bookId;
 
     private Integer pagesRead;
@@ -22,6 +24,6 @@ public class AddEntryDTO {
 
     private String notes;
 
-    private Float userScore;
+    private Double userScore;
 
 }

@@ -26,7 +26,7 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
         bookDto.setGenres(Genres.listToValue(book.getGenres()));
         bookDto.setLanguage(book.getLanguage());
         bookDto.setPages(book.getPages());
-        bookDto.setGlobalscore(book.getGlobalscore());
+        bookDto.setGlobalScore(book.getGlobalScore());
         bookDto.setSynopsis(book.getSynopsis());
         return bookDto;
     }
@@ -40,7 +40,7 @@ public class BookDTOConverter extends ConverterImpl<Book, BookDTO> {
         book.setGenres(Genres.listToGenres(bookDto.getGenres()));
         book.setLanguage(bookDto.getLanguage());
         book.setPages(bookDto.getPages());
-        book.setGlobalscore(bookDto.getGlobalscore());
+        book.setGlobalScore(bookDto.getGlobalScore());
         book.setSynopsis(bookDto.getSynopsis());
         return book;
     }

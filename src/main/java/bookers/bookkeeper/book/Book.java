@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -42,7 +43,7 @@ public class Book extends RepresentationModel<Book> {
     private Integer pages;
 
     @Column(name = "score")
-    private Float globalscore;
+    private Double globalScore;
 
     private String synopsis;
 
