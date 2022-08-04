@@ -18,7 +18,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/authors")
 public class AuthorController extends BaseController<Author, AuthorDTO, AuthorDTOConverter, AuthorService> {
 
-
     @Autowired
     public AuthorController(AuthorService authorService, AuthorDTOConverter authorConverter) {
         super(authorService, authorConverter);
@@ -27,10 +26,8 @@ public class AuthorController extends BaseController<Author, AuthorDTO, AuthorDT
     @GetMapping("/{id}")
     public AuthorDTO getAuthorById(@PathVariable(name = "id") Long authorId) {
         AuthorDTO authorDto = converter.toDto(service.getEntityById(authorId));
-        service.getEntityById(authorId);
-        Link test = linkTo(methodOn(BookController.class).getBookByAuthor(authorId)).withRel("books");
-        authorDto.add(test);
-        return authorDto;
+        Link link = linkTo(methodOn(BookController.class).getBookByAuthor(authorId)).withRel("books");
+        return authorDto.add(link);
     }
 
 

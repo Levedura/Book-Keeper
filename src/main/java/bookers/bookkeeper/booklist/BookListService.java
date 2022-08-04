@@ -16,7 +16,6 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class BookListService extends BaseService<BookEntry, BookListRepository> {
@@ -41,15 +40,16 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
             field.setAccessible(true);
             ReflectionUtils.setField(field, bookEntryFound, updateValue);
         });
-        bookEntryFound.getBook().setGlobalScore(rep.averageBookScore(bookEntryFound.getBook().getId()));
-        return rep.save(bookEntryFound);
+        BookEntry saved = rep.save(bookEntryFound);
+        updateBookGlobalScore(bookEntryFound.getBook());
+        return saved;
     }
 
     public BookEntry addBookEntry(AddEntryDTO addEntryDTO, String username) {
         User user = userService.getUserByNameWithCheck(username);
         Book bookToAdd = bookService.getBook(addEntryDTO.getBookId());
         BookEntry bookEntry = new BookEntry();
-        if (getUserListBooks(username).contains(bookToAdd)) {
+        if (checkIfBookOnUserlist(username, bookToAdd.getId())) {
             throw new IllegalStateException("Book is already on your list");
         }
         bookEntry.setUser(user);
@@ -59,21 +59,24 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
         bookEntry.setStatus(addEntryDTO.getStatus());
         bookEntry.setPagesRead(addEntryDTO.getPagesRead());
         bookEntry.setUserScore(addEntryDTO.getUserScore());
-
-        bookToAdd.setGlobalScore(rep.averageBookScore(bookToAdd.getId()));
         bookEntry.setBook(bookToAdd);
 
-        return rep.save(bookEntry);
+        BookEntry saved = rep.save(bookEntry);
+        updateBookGlobalScore(bookToAdd);
+        return saved;
     }
 
 
     public Long deleteEntry(Long id) {
-        return super.deleteEntityById(id);
+        Book bookToUpdate = getEntityById(id).getBook();
+        Long deletedId = super.deleteEntityById(id);
+        updateBookGlobalScore(bookToUpdate);
+        return deletedId;
     }
 
 
-    private List<Book> getUserListBooks(String username) {
-        return getUserList(username).stream().map(BookEntry::getBook).collect(Collectors.toList());
+    private boolean checkIfBookOnUserlist(String username, Long bookId) {
+        return rep.existsByUser_UsernameAndBook_Id(username, bookId);
     }
 
     public List<BookEntry> getUserListSorted(String username, String sort, Integer pages, Integer pageSize) {
@@ -86,5 +89,9 @@ public class BookListService extends BaseService<BookEntry, BookListRepository> 
 
     }
 
+    public void updateBookGlobalScore(Book book) {
+        book.setGlobalScore(rep.averageBookScore(book.getId()));
+        bookService.addEntity(book);
+    }
 
 }

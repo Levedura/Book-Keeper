@@ -14,12 +14,13 @@ public interface BookListRepository extends GenericRepository<BookEntry> {
 
     List<BookEntry> findBookEntriesByUser_UsernameAndStatus(String username, Status status);
 
+    boolean existsByUser_UsernameAndBook_Id(String username, Long bookId);
+
     @Query(value = "select avg(b.userScore) from BookEntry b where b.book.id = ?1")
     Double averageBookScore(Long bookId);
 
     @Query(value = "select avg (b.userScore) from BookEntry b where b.user.username like ?1")
     Double averageUserScore(String username);
-
 
     @Query(value = "select sum(b.pagesRead) from BookEntry b where b.user.username like ?1")
     Integer sumPagesRead(String username);
