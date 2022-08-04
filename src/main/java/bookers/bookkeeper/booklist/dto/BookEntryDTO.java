@@ -2,15 +2,19 @@ package bookers.bookkeeper.booklist.dto;
 
 import bookers.bookkeeper.book.dto.BookDTO;
 import bookers.bookkeeper.enums.Status;
+import bookers.bookkeeper.generics.DTOId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.sql.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class BookEntryDTO {
+public class BookEntryDTO extends RepresentationModel<BookEntryDTO> implements DTOId {
 
 
     private Long id;

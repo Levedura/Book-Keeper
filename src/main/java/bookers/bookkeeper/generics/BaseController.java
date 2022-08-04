@@ -1,12 +1,19 @@
 package bookers.bookkeeper.generics;
 
+import bookers.bookkeeper.book.BookController;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Service<T>> {
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+public class BaseController<T, DTO extends RepresentationModel<DTO> & DTOId, C extends Converter<T, DTO>, S extends Service<T>> {
+
 
     protected final S service;
     protected final C converter;
@@ -18,7 +25,11 @@ public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Servi
 
     @GetMapping(value = "")
     public List<DTO> getAll() {
-        return converter.listToDto(service.getAllEntities());
+        List<DTO> dtos = converter.listToDto(service.getAllEntities());
+        for (DTO dto : dtos) {
+            dto.add(linkTo(methodOn(this.getClass()).getById(dto.getId())).withSelfRel());
+        }
+        return dtos;
     }
 
     @GetMapping(value = "/id={id}")
