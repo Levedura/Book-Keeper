@@ -1,7 +1,7 @@
 package bookers.bookkeeper.generics;
 
-import bookers.bookkeeper.book.BookController;
-import org.springframework.hateoas.Link;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,44 +24,42 @@ public class BaseController<T, DTO extends RepresentationModel<DTO> & DTOId, C e
     }
 
     @GetMapping(value = "")
-    public List<DTO> getAll() {
-        List<DTO> dtos = converter.listToDto(service.getAllEntities());
-        for (DTO dto : dtos) {
-            dto.add(linkTo(methodOn(this.getClass()).getById(dto.getId())).withSelfRel());
-        }
-        return dtos;
+    public CollectionModel<DTO> getAll() {
+        return getLinksAndDtos(service.getAllEntities());
     }
 
     @GetMapping(value = "/id={id}")
-    public DTO getById(@PathVariable Long id) {
-        return converter.toDto(service.getEntityById(id));
+    public EntityModel<DTO> getById(@PathVariable Long id) {
+        return getLinkAndDto(service.getEntityById(id));
     }
 
     @GetMapping(value = "sortBy/{sort}")
-    public List<DTO> getSimpleSort(@PathVariable String sort) {
-        return converter.listToDto(service.getSimpleSort(sort));
+    public CollectionModel<DTO> getSimpleSort(@PathVariable String sort) {
+        return getLinksAndDtos(service.getSimpleSort(sort));
     }
 
     @GetMapping(value = "/{sort}/{pages}/{pageSize}")
-    public List<DTO> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return converter.listToDto(service.getSimpleSortPaging(sort, pages, pageSize).getContent());
+    public CollectionModel<DTO> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return getLinksAndDtos(service.getSimpleSortPaging(sort, pages, pageSize).getContent());
     }
 
     @PostMapping(value = "")
-    public DTO add(@RequestBody DTO dto) {
-        return converter.toDto(service.addEntity(converter.fromDto(dto)));
+    public EntityModel<DTO> add(@RequestBody DTO dto) {
+        return getLinkAndDto(service.addEntity(converter.fromDto(dto)));
     }
 
     @PostMapping(value = "/list")
-    public List<DTO> addMultiple(@RequestBody List<DTO> dtoList) {
-        List<DTO> result = new ArrayList<>();
-        dtoList.forEach(dto -> result.add(add(dto)));
-        return result;
+    public CollectionModel<DTO> addMultiple(@RequestBody List<DTO> dtoList) {
+        List<T> result = new ArrayList<>();
+        for (DTO dto : dtoList) {
+            result.add(service.addEntity(converter.fromDto(dto)));
+        }
+        return getLinksAndDtos(result);
     }
 
     @PatchMapping(value = "/{id}")
-    public DTO updateEntity(@PathVariable Long id, @RequestBody Map<String, Object> json) {
-        return converter.toDto(service.updateEntity(id, json));
+    public EntityModel<DTO> updateEntity(@PathVariable Long id, @RequestBody Map<String, Object> json) {
+        return getLinkAndDto(service.updateEntity(id, json));
     }
 
 
@@ -70,4 +68,19 @@ public class BaseController<T, DTO extends RepresentationModel<DTO> & DTOId, C e
         return service.deleteEntityById(id);
     }
 
+    public DTO addLinkToType(DTO dto) {
+        return dto.add(linkTo(methodOn(this.getClass()).getById(dto.getId())).withSelfRel());
+    }
+
+
+    public CollectionModel<DTO> getLinksAndDtos(List<T> list) {
+        List<DTO> dtos = converter.listToDto(list);
+        dtos.forEach(this::addLinkToType);
+        return CollectionModel.of(dtos);
+    }
+
+    public EntityModel<DTO> getLinkAndDto(T value) {
+        DTO dto = converter.toDto(value);
+        return EntityModel.of(addLinkToType(dto));
+    }
 }

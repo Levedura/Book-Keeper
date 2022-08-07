@@ -5,6 +5,7 @@ import bookers.bookkeeper.author.dto.AuthorDTOConverter;
 import bookers.bookkeeper.book.BookController;
 import bookers.bookkeeper.generics.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +25,10 @@ public class AuthorController extends BaseController<Author, AuthorDTO, AuthorDT
     }
 
     @GetMapping("/{id}")
-    public AuthorDTO getAuthorById(@PathVariable(name = "id") Long authorId) {
-        AuthorDTO authorDto = converter.toDto(service.getEntityById(authorId));
-        Link link = linkTo(methodOn(BookController.class).getBookByAuthor(authorId)).withRel("books");
-        return authorDto.add(link);
+    public EntityModel<AuthorDTO> getAuthorById(@PathVariable(name = "id") Long authorId) {
+        EntityModel<AuthorDTO> dto = super.getLinkAndDto(service.getEntityById(authorId));
+        dto.add(linkTo(methodOn(BookController.class).getBookByAuthor(authorId)).withRel("books"));
+        return dto;
     }
 
 
