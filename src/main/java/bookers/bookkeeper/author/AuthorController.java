@@ -1,35 +1,27 @@
 package bookers.bookkeeper.author;
 
 import bookers.bookkeeper.author.dto.AuthorDTO;
-import bookers.bookkeeper.author.dto.AuthorDTOConverter;
-import bookers.bookkeeper.book.BookController;
 import bookers.bookkeeper.generics.BaseController;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
-public class AuthorController extends BaseController<Author, AuthorDTO, AuthorDTOConverter, AuthorService> {
+public class AuthorController extends BaseController<Author, AuthorDTO, AuthorService, AuthorModelAssembler> {
 
-    @Autowired
-    public AuthorController(AuthorService authorService, AuthorDTOConverter authorConverter) {
-        super(authorService, authorConverter);
+    public AuthorController(AuthorService service, AuthorModelAssembler modelAssembler) {
+        super(service, modelAssembler);
     }
 
-    @GetMapping("/{id}")
-    public EntityModel<AuthorDTO> getAuthorById(@PathVariable(name = "id") Long authorId) {
-        EntityModel<AuthorDTO> dto = super.getLinkAndDto(service.getEntityById(authorId));
-        dto.add(linkTo(methodOn(BookController.class).getBookByAuthor(authorId)).withRel("books"));
-        return dto;
+    @GetMapping(value = "book/{bookId}")
+    public CollectionModel<EntityModel<AuthorDTO>> getAuthorByBook(@PathVariable Long bookId) {
+        return modelAssembler.toCollectionModel(service.findAuthorsByBooks(List.of(bookId)));
     }
-
 
 }

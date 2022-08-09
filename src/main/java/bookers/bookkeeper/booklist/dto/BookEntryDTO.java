@@ -2,7 +2,6 @@ package bookers.bookkeeper.booklist.dto;
 
 import bookers.bookkeeper.book.dto.BookDTO;
 import bookers.bookkeeper.enums.Status;
-import bookers.bookkeeper.generics.DTOId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +13,7 @@ import java.sql.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BookEntryDTO extends RepresentationModel<BookEntryDTO> implements DTOId {
+public class BookEntryDTO extends RepresentationModel<BookEntryDTO> {
 
 
     private Long id;

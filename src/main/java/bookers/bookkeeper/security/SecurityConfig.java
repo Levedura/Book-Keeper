@@ -42,18 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable();
-
-/*
-
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login", "/register")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-    }
-*/
     }
 
     @Bean

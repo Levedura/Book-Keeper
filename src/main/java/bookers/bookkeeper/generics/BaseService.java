@@ -14,6 +14,7 @@ import java.util.function.Function;
 public abstract class BaseService<T, Repository extends GenericRepository<T>> implements Service<T> {
 
     private static final String ERROR_MESSAGE = "Entity not found";
+
     protected final Repository rep;
 
     protected BaseService(Repository rep) {
@@ -22,6 +23,10 @@ public abstract class BaseService<T, Repository extends GenericRepository<T>> im
 
     public T addEntity(T entity) {
         return rep.save(entity);
+    }
+
+    public List<T> addListEntities(List<T> entities) {
+        return rep.saveAll(entities);
     }
 
     public List<T> getAllEntities() {
@@ -40,17 +45,29 @@ public abstract class BaseService<T, Repository extends GenericRepository<T>> im
         return entityId;
     }
 
-    public List<T> getEntitiesOrderedBy(Function<Pageable, List<T>> func, int pages, int size) {
-        Pageable page = PageRequest.of(pages, size);
-        return func.apply(page);
+    public List<T> getSimpleSort(String sort) {
+        return bySort(Sort.by(sort));
     }
 
-    public List<T> getSimpleSort(String sort) {
-        return rep.findAll(Sort.by(sort));
+    public List<T> getSimpleSortOrder(String sort, String order) {
+        return bySort(Sort.by(new Sort.Order(Sort.Direction.fromString(order), sort)));
+    }
+
+    private List<T> bySort(Sort sort) {
+        return rep.findAll(sort);
     }
 
     public Page<T> getSimpleSortPaging(String sort, Integer pages, Integer pageSize) {
         Pageable page = PageRequest.of(pages, pageSize, Sort.by(sort));
+        return rep.findAll(page);
+    }
+
+    public Page<T> getSimpleSortPagingOrder(String sort,String order,Integer pages,Integer pageSize){
+        return bySortPaged(Sort.by(new Sort.Order(Sort.Direction.fromString(order),sort)),pages,pageSize);
+    }
+
+    private Page<T> bySortPaged(Sort sort, Integer pages, Integer pageSize) {
+        Pageable page = PageRequest.of(pages, pageSize, sort);
         return rep.findAll(page);
     }
 
