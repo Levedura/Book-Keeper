@@ -1,43 +1,50 @@
 package bookers.bookkeeper.userprofile;
 
 import bookers.bookkeeper.userprofile.dto.UserProfileDTO;
-import bookers.bookkeeper.userprofile.dto.UserProfileDTOConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/userprofile")
+@RequestMapping("/userprofile/{username}")
 public class UserProfileController {
 
-    UserProfileDTOConverter converter;
     UserProfileService userProfileService;
+    UserProfileModelAssembler modelAssembler;
 
-    public UserProfileController(UserProfileDTOConverter converter, UserProfileService userProfileService) {
-        this.converter = converter;
+    @Autowired
+    public UserProfileController(UserProfileService userProfileService, UserProfileModelAssembler modelAssembler) {
         this.userProfileService = userProfileService;
+        this.modelAssembler = modelAssembler;
     }
 
-    @GetMapping("/{username}")
-    public UserProfileDTO getUserProfile(@PathVariable String username) {
-        return converter.toDto(userProfileService.getAndUpdate(username));
+    @GetMapping()
+    public EntityModel<UserProfileDTO> getUserProfile(@PathVariable String username) {
+        return modelAssembler.toModel(userProfileService.getAndUpdate(username));
     }
 
-    @PutMapping("/{username}/book/{bookId}")
-    public UserProfileDTO addFavoriteBook(@PathVariable String username, @PathVariable Long bookId) {
-        return converter.toDto(userProfileService.addFavoriteBook(username, bookId));
+    public CollectionModel<EntityModel<UserProfileDTO>> getAll() {
+        return modelAssembler.toCollectionModel(userProfileService.getAllEntities());
     }
 
-    @PatchMapping("/{username}/book/{bookId}")
-    public UserProfileDTO removeFavoriteBook(@PathVariable String username, @PathVariable Long bookId) {
-        return converter.toDto(userProfileService.removeFavoriteBook(username, bookId));
+    @PutMapping("/book/{bookId}")
+    public EntityModel<UserProfileDTO> addFavoriteBook(@PathVariable String username, @PathVariable Long bookId) {
+        return modelAssembler.toModel(userProfileService.addFavoriteBook(username, bookId));
     }
 
-    @PutMapping("/{username}/author/{authorId}")
-    public UserProfileDTO addFavoriteAuthor(@PathVariable String username, @PathVariable Long authorId) {
-        return converter.toDto(userProfileService.addFavoriteAuthor(username, authorId));
+    @PatchMapping("/book/{bookId}")
+    public EntityModel<UserProfileDTO> removeFavoriteBook(@PathVariable String username, @PathVariable Long bookId) {
+        return modelAssembler.toModel(userProfileService.removeFavoriteBook(username, bookId));
     }
 
-    @PatchMapping("/{username}/author/{authorId}")
-    public UserProfileDTO removeFavoriteAuthor(@PathVariable String username, @PathVariable Long authorId) {
-        return converter.toDto(userProfileService.removeFavoriteAuthor(username, authorId));
+    @PutMapping("/author/{authorId}")
+    public EntityModel<UserProfileDTO> addFavoriteAuthor(@PathVariable String username, @PathVariable Long authorId) {
+        return modelAssembler.toModel(userProfileService.addFavoriteAuthor(username, authorId));
+    }
+
+    @PatchMapping("/author/{authorId}")
+    public EntityModel<UserProfileDTO> removeFavoriteAuthor(@PathVariable String username, @PathVariable Long authorId) {
+        return modelAssembler.toModel(userProfileService.removeFavoriteAuthor(username, authorId));
     }
 }

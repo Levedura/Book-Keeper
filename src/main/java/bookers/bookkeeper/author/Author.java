@@ -21,7 +21,7 @@ public class Author extends RepresentationModel<Author> {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "authors" )
     private List<Book> books;
 
     @Column(name = "favorites")

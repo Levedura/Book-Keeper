@@ -1,33 +1,34 @@
 package bookers.bookkeeper.book;
 
 import bookers.bookkeeper.book.dto.BookDTO;
-import bookers.bookkeeper.book.dto.BookDTOConverter;
 import bookers.bookkeeper.generics.BaseController;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/books")
-public class BookController extends BaseController<Book, BookDTO, BookDTOConverter, BookService> {
+public class BookController extends BaseController<Book, BookDTO, BookService, BookModelAssembler> {
 
-    public BookController(BookService service, BookDTOConverter converter) {
-        super(service, converter);
+    public BookController(BookService service, BookModelAssembler modelAssembler) {
+        super(service, modelAssembler);
     }
 
     @PostMapping(value = "/authors")
-    public List<BookDTO> getBooksByAuthor(@RequestBody List<Long> authorIds) {
-        return converter.listToDto(service.getBooksByAuthorIds(authorIds));
+    public CollectionModel<EntityModel<BookDTO>> getBooksByAuthor(@RequestBody List<Long> authorIds) {
+        return modelAssembler.toCollectionModel(service.getBooksByAuthorIds(authorIds));
     }
 
     @PostMapping(value = "/genres")
-    public List<BookDTO> getBooksByGenre(@RequestBody List<String> genres) {
-        return converter.listToDto(service.getBookByGenres(genres));
+    public CollectionModel<EntityModel<BookDTO>> getBooksByGenre(@RequestBody List<String> genres) {
+        return modelAssembler.toCollectionModel(service.getBookByGenres(genres));
     }
 
     @GetMapping(value = "/author/{id}")
-    public List<BookDTO> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
-        return converter.listToDto(service.getBookByAuthorId(authorId));
+    public CollectionModel<EntityModel<BookDTO>> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
+        return modelAssembler.toCollectionModel(service.getBookByAuthorId(authorId));
     }
 
 }

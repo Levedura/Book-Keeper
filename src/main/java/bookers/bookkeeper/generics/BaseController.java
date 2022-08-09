@@ -1,56 +1,67 @@
 package bookers.bookkeeper.generics;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BaseController<T, DTO, C extends Converter<T, DTO>, S extends Service<T>> {
+public class BaseController<T, DTO, S extends Service<T>, M extends AssemblerConverter<T, DTO>> {
+
 
     protected final S service;
-    protected final C converter;
+    protected final M modelAssembler;
 
-    public BaseController(S service, C converter) {
+    public BaseController(S service, M modelAssembler) {
         this.service = service;
-        this.converter = converter;
+        this.modelAssembler = modelAssembler;
     }
 
     @GetMapping(value = "")
-    public List<DTO> getAll() {
-        return converter.listToDto(service.getAllEntities());
+    public CollectionModel<EntityModel<DTO>> getAll() {
+        return modelAssembler.toCollectionModel(service.getAllEntities());
     }
 
-    @GetMapping(value = "/id={id}")
-    public DTO getById(@PathVariable Long id) {
-        return converter.toDto(service.getEntityById(id));
+    @GetMapping(value = "/{id}")
+    public EntityModel<DTO> getById(@PathVariable Long id) {
+        return modelAssembler.toModel(service.getEntityById(id));
     }
 
     @GetMapping(value = "sortBy/{sort}")
-    public List<DTO> getSimpleSort(@PathVariable String sort) {
-        return converter.listToDto(service.getSimpleSort(sort));
+    public CollectionModel<EntityModel<DTO>> getSimpleSort(@PathVariable String sort) {
+        return modelAssembler.toCollectionModel(service.getSimpleSort(sort));
+    }
+
+    @GetMapping(value = "sortBy/{sort}/{order}")
+    public CollectionModel<EntityModel<DTO>> getSimpleSortOrder(@PathVariable String sort, @PathVariable String order) {
+        return modelAssembler.toCollectionModel(service.getSimpleSortOrder(sort,order));
     }
 
     @GetMapping(value = "/{sort}/{pages}/{pageSize}")
-    public List<DTO> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return converter.listToDto(service.getSimpleSortPaging(sort, pages, pageSize).getContent());
+    public CollectionModel<EntityModel<DTO>> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return modelAssembler.toCollectionModel(service.getSimpleSortPaging(sort, pages, pageSize).getContent());
+    }
+
+    @GetMapping(value = "/{sort}/{order}/{pages}/{pageSize}")
+    public CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(@PathVariable String sort,@PathVariable String order ,@PathVariable Integer pages, @PathVariable Integer pageSize ) {
+        return modelAssembler.toCollectionModel(service.getSimpleSortPagingOrder(sort,order ,pages, pageSize).getContent());
     }
 
     @PostMapping(value = "")
-    public DTO add(@RequestBody DTO dto) {
-        return converter.toDto(service.addEntity(converter.fromDto(dto)));
+    public EntityModel<DTO> add(@RequestBody DTO dto) {
+        return modelAssembler.toModel(service.addEntity(modelAssembler.getConverter().fromDto(dto)));
     }
 
     @PostMapping(value = "/list")
-    public List<DTO> addMultiple(@RequestBody List<DTO> dtoList) {
-        List<DTO> result = new ArrayList<>();
-        dtoList.forEach(dto -> result.add(add(dto)));
-        return result;
+    public CollectionModel<EntityModel<DTO>> addMultiple(@RequestBody List<DTO> dtoList) {
+        return modelAssembler.toCollectionModel(service.addListEntities(modelAssembler.getConverter().listFromDto(dtoList)));
+
     }
 
     @PatchMapping(value = "/{id}")
-    public DTO updateEntity(@PathVariable Long id, @RequestBody Map<String, Object> json) {
-        return converter.toDto(service.updateEntity(id, json));
+    public EntityModel<DTO> updateEntity(@PathVariable Long id, @RequestBody Map<String, Object> json) {
+        return modelAssembler.toModel(service.updateEntity(id, json));
     }
 
 
