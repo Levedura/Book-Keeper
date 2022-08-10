@@ -35,7 +35,7 @@ public class BaseController<T, DTO, S extends Service<T>, M extends AssemblerCon
 
     @GetMapping(value = "sortBy/{sort}/{order}")
     public CollectionModel<EntityModel<DTO>> getSimpleSortOrder(@PathVariable String sort, @PathVariable String order) {
-        return modelAssembler.toCollectionModel(service.getSimpleSortOrder(sort,order));
+        return modelAssembler.toCollectionModel(service.getSimpleSortOrder(sort, order));
     }
 
     @GetMapping(value = "/{sort}/{pages}/{pageSize}")
@@ -44,8 +44,8 @@ public class BaseController<T, DTO, S extends Service<T>, M extends AssemblerCon
     }
 
     @GetMapping(value = "/{sort}/{order}/{pages}/{pageSize}")
-    public CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(@PathVariable String sort,@PathVariable String order ,@PathVariable Integer pages, @PathVariable Integer pageSize ) {
-        return modelAssembler.toCollectionModel(service.getSimpleSortPagingOrder(sort,order ,pages, pageSize).getContent());
+    public CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(@PathVariable String sort, @PathVariable String order, @PathVariable Integer pages, @PathVariable Integer pageSize) {
+        return modelAssembler.toCollectionModel(service.getSimpleSortPagingOrder(sort, order, pages, pageSize).getContent());
     }
 
     @PostMapping(value = "")

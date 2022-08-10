@@ -9,7 +9,6 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public abstract class BaseService<T, Repository extends GenericRepository<T>> implements Service<T> {
 
@@ -62,8 +61,8 @@ public abstract class BaseService<T, Repository extends GenericRepository<T>> im
         return rep.findAll(page);
     }
 
-    public Page<T> getSimpleSortPagingOrder(String sort,String order,Integer pages,Integer pageSize){
-        return bySortPaged(Sort.by(new Sort.Order(Sort.Direction.fromString(order),sort)),pages,pageSize);
+    public Page<T> getSimpleSortPagingOrder(String sort, String order, Integer pages, Integer pageSize) {
+        return bySortPaged(Sort.by(new Sort.Order(Sort.Direction.fromString(order), sort)), pages, pageSize);
     }
 
     private Page<T> bySortPaged(Sort sort, Integer pages, Integer pageSize) {

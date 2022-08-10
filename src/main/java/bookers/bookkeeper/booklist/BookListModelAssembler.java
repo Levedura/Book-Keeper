@@ -8,7 +8,6 @@ import bookers.bookkeeper.user.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +47,6 @@ public class BookListModelAssembler implements AssemblerConverter<BookEntry, Boo
 
     @Override
     public Converter<BookEntry, BookEntryDTO> getConverter() {
-       return converter;
+        return converter;
     }
 }

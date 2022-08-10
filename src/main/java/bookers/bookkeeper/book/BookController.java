@@ -7,6 +7,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
@@ -31,4 +32,8 @@ public class BookController extends BaseController<Book, BookDTO, BookService, B
         return modelAssembler.toCollectionModel(service.getBookByAuthorId(authorId));
     }
 
+    @GetMapping(value = "/s/")
+    public CollectionModel<EntityModel<BookDTO>> searchBookByTitle(@RequestBody Map<String, String> search) {
+        return modelAssembler.toCollectionModel(service.searchByTitle(search.get("search")));
+    }
 }
