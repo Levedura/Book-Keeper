@@ -1,11 +1,8 @@
 package bookers.bookkeeper.author.dto;
 
 import bookers.bookkeeper.author.Author;
-import bookers.bookkeeper.book.Book;
 import bookers.bookkeeper.generics.ConverterImpl;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class AuthorDTOConverter extends ConverterImpl<Author, AuthorDTO> {
@@ -25,9 +22,6 @@ public class AuthorDTOConverter extends ConverterImpl<Author, AuthorDTO> {
     public AuthorDTO toDto(Author author) {
         AuthorDTO authorDto = new AuthorDTO();
         authorDto.setName(author.getName());
-        if (author.getBooks() != null) {
-            authorDto.setBooks(author.getBooks().stream().map(Book::getId).collect(Collectors.toList()));
-        }
         authorDto.setId(author.getId());
         authorDto.setFavorites(author.getFavorites());
         return authorDto;

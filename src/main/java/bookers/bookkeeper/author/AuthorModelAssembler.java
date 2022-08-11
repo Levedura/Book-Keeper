@@ -30,9 +30,10 @@ public class AuthorModelAssembler implements AssemblerConverter<Author, AuthorDT
     @NonNull
     public EntityModel<AuthorDTO> toModel(@NonNull Author entity) {
         AuthorDTO author = converter.toDto(entity);
-        author.add(linkTo(methodOn(AuthorController.class).getById(entity.getId())).withSelfRel());
-        author.add(linkTo(methodOn(BookController.class).getBookByAuthor(entity.getId())).withRel("books"));
-        return EntityModel.of(author);
+        return EntityModel.of(author,
+                linkTo(methodOn(AuthorController.class).getById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(BookController.class).getBookByAuthor(entity.getId())).withRel("books")
+        );
     }
 
     @Override

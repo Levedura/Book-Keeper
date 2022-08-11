@@ -6,6 +6,7 @@ import bookers.bookkeeper.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,8 +27,8 @@ public class UserProfile {
     Integer booksRead;
 
     @OneToMany
-    List<Book> favoriteBooks;
+    List<Book> favoriteBooks = new ArrayList<>();
 
     @OneToMany
-    List<Author> favoriteAuthors;
+    List<Author> favoriteAuthors = new ArrayList<>();
 }

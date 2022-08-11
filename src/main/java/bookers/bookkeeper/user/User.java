@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class User implements UserDetails {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIdentityReference(alwaysAsId = true)
-    private List<BookEntry> userlist;
+    private List<BookEntry> userlist = new ArrayList<>();
 
     @JsonIgnore
     private Boolean enabled;

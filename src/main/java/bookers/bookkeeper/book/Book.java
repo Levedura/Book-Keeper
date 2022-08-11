@@ -5,6 +5,7 @@ import bookers.bookkeeper.enums.Genres;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Book extends RepresentationModel<Book> {
     @ManyToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @RestResource(path = "authors", rel = "authors")
     private List<Author> authors;
 
     @ElementCollection(targetClass = Genres.class)

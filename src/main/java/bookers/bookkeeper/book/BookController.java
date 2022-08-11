@@ -1,5 +1,8 @@
 package bookers.bookkeeper.book;
 
+import bookers.bookkeeper.author.AuthorModelAssembler;
+import bookers.bookkeeper.author.AuthorRepository;
+import bookers.bookkeeper.author.dto.AuthorDTO;
 import bookers.bookkeeper.book.dto.BookDTO;
 import bookers.bookkeeper.generics.BaseController;
 import org.springframework.hateoas.CollectionModel;
@@ -13,14 +16,26 @@ import java.util.Map;
 @RequestMapping("/books")
 public class BookController extends BaseController<Book, BookDTO, BookService, BookModelAssembler> {
 
-    public BookController(BookService service, BookModelAssembler modelAssembler) {
+    AuthorRepository authorService;
+    AuthorModelAssembler authorModelAssembler;
+
+    public BookController(BookService service, BookModelAssembler modelAssembler, AuthorRepository authorService, AuthorModelAssembler authorModelAssembler) {
         super(service, modelAssembler);
+        this.authorService = authorService;
+        this.authorModelAssembler = authorModelAssembler;
     }
+
+    @GetMapping(value = "{id}/authors")
+    public CollectionModel<EntityModel<AuthorDTO>> getBookAuthors(@PathVariable(name = "id") Long bookId) {
+        return authorModelAssembler.toCollectionModel(authorService.findAuthorsByBooks(List.of(bookId)));
+    }
+
 
     @PostMapping(value = "/authors")
     public CollectionModel<EntityModel<BookDTO>> getBooksByAuthor(@RequestBody List<Long> authorIds) {
         return modelAssembler.toCollectionModel(service.getBooksByAuthorIds(authorIds));
     }
+
 
     @PostMapping(value = "/genres")
     public CollectionModel<EntityModel<BookDTO>> getBooksByGenre(@RequestBody List<String> genres) {

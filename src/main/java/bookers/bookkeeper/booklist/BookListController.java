@@ -19,7 +19,7 @@ public class BookListController extends BaseController<BookEntry, BookEntryDTO, 
         super(service, modelAssembler);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/user/{username}")
     public CollectionModel<EntityModel<BookEntryDTO>> getUserList(@PathVariable(name = "username") String username) {
         return modelAssembler.toCollectionModel((service.getUserList(username)));
     }

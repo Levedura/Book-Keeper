@@ -1,6 +1,5 @@
 package bookers.bookkeeper.book;
 
-import bookers.bookkeeper.author.AuthorController;
 import bookers.bookkeeper.book.dto.BookDTO;
 import bookers.bookkeeper.generics.AssemblerConverter;
 import bookers.bookkeeper.generics.Converter;
@@ -30,9 +29,9 @@ public class BookModelAssembler implements AssemblerConverter<Book, BookDTO> {
     @NonNull
     public EntityModel<BookDTO> toModel(@NonNull Book entity) {
         BookDTO dto = converter.toDto(entity);
-        dto.add(linkTo(methodOn(BookController.class).getById(entity.getId())).withSelfRel());
-        dto.add(linkTo(methodOn(AuthorController.class).getAuthorByBook(entity.getId())).withRel("author"));
-        return EntityModel.of(dto);
+        return EntityModel.of(dto,
+                linkTo(methodOn(BookController.class).getById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(BookController.class).getBookAuthors(entity.getId())).withRel("authors"));
     }
 
     @Override

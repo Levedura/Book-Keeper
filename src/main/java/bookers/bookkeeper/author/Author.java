@@ -3,6 +3,7 @@ package bookers.bookkeeper.author;
 import bookers.bookkeeper.book.Book;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Author extends RepresentationModel<Author> {
     private String name;
 
     @ManyToMany(mappedBy = "authors")
+    @RestResource(path = "books", rel = "books")
     private List<Book> books;
 
     @Column(name = "favorites")
