@@ -14,17 +14,17 @@ public interface IController<T, DTO, S extends Service<T>, M extends AssemblerCo
     @GetMapping(value = "/{id}")
     EntityModel<DTO> getById(@PathVariable Long id);
 
-    @GetMapping(value = "sortBy/{sort}")
-    CollectionModel<EntityModel<DTO>> getSimpleSort(@PathVariable String sort);
+    @GetMapping(value = "", params = "sort")
+    CollectionModel<EntityModel<DTO>> getSimpleSort(@RequestParam String sort);
 
-    @GetMapping(value = "sortBy/{sort}/{order}")
-    CollectionModel<EntityModel<DTO>> getSimpleSortOrder(@PathVariable String sort, @PathVariable String order);
+    @GetMapping(value = "", params = {"sort", "order"})
+    CollectionModel<EntityModel<DTO>> getSimpleSortOrder(@RequestParam String sort, String order);
 
-    @GetMapping(value = "/{sort}/{pages}/{pageSize}")
-    CollectionModel<EntityModel<DTO>> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize);
+    @GetMapping(value = "", params = {"sort", "pages", "pageSize"})
+    CollectionModel<EntityModel<DTO>> getSimpleSortPaging(@RequestParam String sort, @RequestParam Integer page, @RequestParam Integer pageSize);
 
-    @GetMapping(value = "/{sort}/{order}/{pages}/{pageSize}")
-    CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(@PathVariable String sort, @PathVariable String order, @PathVariable Integer pages, @PathVariable Integer pageSize);
+    @GetMapping(value = "", params = {"sort", "order", "pages", "pageSize"})
+    CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(@RequestParam String sort, @RequestParam String order, @RequestParam Integer page, @RequestParam Integer pageSize);
 
     @PostMapping(value = "")
     EntityModel<DTO> add(@RequestBody DTO dto);

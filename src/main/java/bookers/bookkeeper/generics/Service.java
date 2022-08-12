@@ -18,7 +18,6 @@ public interface Service<T> {
 
     List<T> getSimpleSort(String sort);
 
-
     List<T> getSimpleSortOrder(String sort, String order);
 
     Page<T> getSimpleSortPagingOrder(String sort, String order, Integer pages, Integer pageSize);

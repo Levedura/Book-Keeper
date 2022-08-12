@@ -25,33 +25,28 @@ public class BaseController<T, DTO, S extends Service<T>, M extends AssemblerCon
     }
 
     @Override
-    @GetMapping(value = "/{id}")
     public EntityModel<DTO> getById(@PathVariable Long id) {
         return modelAssembler.toModel(service.getEntityById(id));
     }
 
     @Override
-    @GetMapping(value = "sortBy/{sort}")
-    public CollectionModel<EntityModel<DTO>> getSimpleSort(@PathVariable String sort) {
+    public CollectionModel<EntityModel<DTO>> getSimpleSort(String sort) {
         return modelAssembler.toCollectionModel(service.getSimpleSort(sort));
     }
 
     @Override
-    @GetMapping(value = "sortBy/{sort}/{order}")
-    public CollectionModel<EntityModel<DTO>> getSimpleSortOrder(@PathVariable String sort, @PathVariable String order) {
+    public CollectionModel<EntityModel<DTO>> getSimpleSortOrder(String sort, String order) {
         return modelAssembler.toCollectionModel(service.getSimpleSortOrder(sort, order));
     }
 
     @Override
-    @GetMapping(value = "/{sort}/{pages}/{pageSize}")
-    public CollectionModel<EntityModel<DTO>> getSimpleSortPaging(@PathVariable String sort, @PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return modelAssembler.toCollectionModel(service.getSimpleSortPaging(sort, pages, pageSize).getContent());
+    public CollectionModel<EntityModel<DTO>> getSimpleSortPaging(String sort, Integer page, Integer pageSize) {
+        return modelAssembler.toCollectionModel(service.getSimpleSortPaging(sort, page, pageSize).getContent());
     }
 
     @Override
-    @GetMapping(value = "/{sort}/{order}/{pages}/{pageSize}")
-    public CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(@PathVariable String sort, @PathVariable String order, @PathVariable Integer pages, @PathVariable Integer pageSize) {
-        return modelAssembler.toCollectionModel(service.getSimpleSortPagingOrder(sort, order, pages, pageSize).getContent());
+    public CollectionModel<EntityModel<DTO>> getSimpleSortPagingOrder(String sort, String order, Integer page, Integer pageSize) {
+        return modelAssembler.toCollectionModel(service.getSimpleSortPagingOrder(sort, order, page, pageSize).getContent());
     }
 
     @Override

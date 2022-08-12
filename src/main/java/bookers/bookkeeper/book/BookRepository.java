@@ -1,5 +1,6 @@
 package bookers.bookkeeper.book;
 
+import bookers.bookkeeper.book.dto.BookSimpleView;
 import bookers.bookkeeper.generics.GenericRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "books", path = "books")
 public interface BookRepository extends GenericRepository<Book> {
+
+    List<BookSimpleView> getBooksBy();
 
     @Query(value = "select * from book_authors inner join book on book.id = books_id where authors_id in ?1", nativeQuery = true)
     List<Book> findByAuthors(List<Long> authors);

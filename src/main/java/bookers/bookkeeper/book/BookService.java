@@ -1,5 +1,6 @@
 package bookers.bookkeeper.book;
 
+import bookers.bookkeeper.book.dto.BookSimpleView;
 import bookers.bookkeeper.generics.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,9 @@ public class BookService extends BaseService<Book, BookRepository> {
         super(bookRepository);
     }
 
+    List<BookSimpleView> a(){
+        return rep.getBooksBy();
+    }
     public List<Book> getBooksByAuthorIds(List<Long> authors) {
         return rep.findByAuthors(authors);
     }
@@ -36,6 +40,7 @@ public class BookService extends BaseService<Book, BookRepository> {
     public List<Book> getBookByGenres(List<String> genres) {
         return rep.findByGenres(genres, genres.size()).stream().map(super::getEntityById).collect(Collectors.toList());
     }
+
 
     public Page<Book> searchByTitle(String words) {
         Pageable page = PageRequest.of(0, 10);
