@@ -13,6 +13,7 @@ import java.util.List;
 public class UserDTO extends RepresentationModel<UserDTO> {
     private String username;
     private String email;
+    private String image;
     private List<BookEntryDTO> userlist = new ArrayList<>();
 
 }

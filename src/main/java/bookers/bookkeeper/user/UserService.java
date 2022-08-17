@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Consumer;
 
 import static bookers.bookkeeper.security.SecurityConfig.passwordEncoder;
 
@@ -27,19 +25,21 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         super(rep);
     }
 
-    public User updateUser(String userName, LoginHelper user) {
+    public User updateUser(String userName, LoginHelper updateData) {
         User foundUser = getUserByNameWithCheck(userName);
-        if (user.getUsername() != null) {
-            foundUser.setUsername(user.getUsername());
-        }
-        if (user.getPassword() != null) {
-            foundUser.setPassword(passwordEncoder().encode(user.getPassword()));
-        }
-        if (user.getEmail() != null) {
-            foundUser.setEmail(user.getEmail());
-        }
+        setFieldIfNotNull(updateData.getUsername(), foundUser::setUsername);
+        setFieldIfNotNull(updateData.getPassword(), (pass) -> foundUser.setPassword(passwordEncoder().encode(pass)));
+        setFieldIfNotNull(updateData.getImage(), foundUser::setImage);
+        setFieldIfNotNull(updateData.getEmail(), foundUser::setImage);
+
         rep.save(foundUser);
         return foundUser;
+    }
+
+    public <T> void setFieldIfNotNull(T toCheck, Consumer<T> consumer) {
+        if (Objects.nonNull(toCheck)) {
+            consumer.accept(toCheck);
+        }
     }
 
     public User getUserByNameWithCheck(String userName) {
@@ -56,6 +56,7 @@ public class UserService extends BaseService<User, UserRepository> implements Us
         authorities.add(new SimpleGrantedAuthority(DEFAULT_AUTHORITY));
         user.setUsername(registerData.getUsername());
         user.setEmail(registerData.getEmail());
+        user.setImage(registerData.getImage());
         user.setUserlist(new ArrayList<>());
         user.setAuthorities(authorities);
         user.setPassword(passwordEncoder().encode(registerData.getPassword()));

@@ -33,7 +33,7 @@ public class BookListModelAssembler implements AssemblerConverter<BookEntry, Boo
         BookEntryDTO dto = converter.toDto(entity);
         dto.add(linkTo(methodOn(BookListController.class).getById(entity.getId())).withSelfRel());
         dto.add(linkTo(methodOn(BookController.class).getById(entity.getBook().getId())).withRel("books"));
-        dto.add(linkTo(methodOn(UserController.class).getById(entity.getUser().getId())).withRel("user"));
+        dto.add(linkTo(methodOn(UserController.class).getUserProfile(entity.getUser().getUsername())).withRel("user"));
         return EntityModel.of(dto);
     }
 

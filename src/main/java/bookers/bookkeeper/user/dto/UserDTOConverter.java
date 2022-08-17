@@ -21,6 +21,7 @@ public class UserDTOConverter extends ConverterImpl<User, UserDTO> {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
+        userDTO.setImage(user.getImage());
         userDTO.setUserlist(bookEntryDTOConverter.listToDto(user.getUserlist()));
         return userDTO;
     }
@@ -30,6 +31,7 @@ public class UserDTOConverter extends ConverterImpl<User, UserDTO> {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
+        user.setImage(userDto.getImage());
         user.setUserlist(bookEntryDTOConverter.listFromDto(userDto.getUserlist()));
         return user;
     }
