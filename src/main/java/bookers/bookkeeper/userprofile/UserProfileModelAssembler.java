@@ -1,6 +1,7 @@
 package bookers.bookkeeper.userprofile;
 
 import bookers.bookkeeper.generics.Converter;
+import bookers.bookkeeper.user.UserController;
 import bookers.bookkeeper.user.UserService;
 import bookers.bookkeeper.userprofile.dto.UserProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class UserProfileModelAssembler implements RepresentationModelAssembler<U
     @NonNull
     public EntityModel<UserProfileDTO> toModel(@NonNull UserProfile entity) {
         UserProfileDTO userProfile = converter.toDto(entity);
-        userProfile.add(linkTo(methodOn(UserProfileController.class).getUserProfile(entity.getUser().getUsername())).withSelfRel());
-        userProfile.add(linkTo(methodOn(UserService.class).getUserByNameWithCheck(entity.getUser().getUsername())).withSelfRel());
+        userProfile.add(linkTo(methodOn(UserController.class).getUserProfile(entity.getUser().getUsername())).withRel("user"));
+        userProfile.add(linkTo(methodOn(UserService.class).getUserByNameWithCheck(entity.getUser().getUsername())).withRel("user"));
         return EntityModel.of(userProfile);
     }
 
@@ -40,6 +41,6 @@ public class UserProfileModelAssembler implements RepresentationModelAssembler<U
     public CollectionModel<EntityModel<UserProfileDTO>> toCollectionModel(@NonNull Iterable<? extends UserProfile> entities) {
         List<EntityModel<UserProfileDTO>> result = new ArrayList<>();
         entities.forEach(e -> result.add(toModel(e)));
-        return CollectionModel.of(result, linkTo(methodOn(UserProfileController.class).getAll()).withSelfRel());
+        return CollectionModel.of(result, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
     }
 }

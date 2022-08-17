@@ -22,9 +22,10 @@ public class BookService extends BaseService<Book, BookRepository> {
         super(bookRepository);
     }
 
-    List<BookSimpleView> a(){
+    List<BookSimpleView> a() {
         return rep.getBooksBy();
     }
+
     public List<Book> getBooksByAuthorIds(List<Long> authors) {
         return rep.findByAuthors(authors);
     }

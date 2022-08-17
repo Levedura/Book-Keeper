@@ -3,46 +3,57 @@ package bookers.bookkeeper.user;
 import bookers.bookkeeper.generics.BaseController;
 import bookers.bookkeeper.user.dto.LoginHelper;
 import bookers.bookkeeper.user.dto.UserDTO;
+import bookers.bookkeeper.userprofile.UserProfileModelAssembler;
+import bookers.bookkeeper.userprofile.UserProfileService;
+import bookers.bookkeeper.userprofile.dto.UserProfileDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = "/users")
 public class UserController extends BaseController<User, UserDTO, UserService, UserModelAssembler> {
 
-    AuthenticationManager authenticationManager;
+    private final UserProfileService userProfileService;
+    private final UserProfileModelAssembler profileAssembler;
 
-    public UserController(UserService service, UserModelAssembler modelAssembler, AuthenticationManager authenticationManager) {
+    public UserController(UserService service, UserModelAssembler modelAssembler, UserProfileService userProfileService, UserProfileModelAssembler profileAssembler) {
         super(service, modelAssembler);
-        this.authenticationManager = authenticationManager;
+        this.userProfileService = userProfileService;
+        this.profileAssembler = profileAssembler;
     }
 
-    @PutMapping("/{username}")
+    @PutMapping(value = ("/{username}/update"))
     @PreAuthorize("authentication.name == #userName")
-    public EntityModel<UserDTO> updateUser(@PathVariable(name = "username") String userName, @RequestBody LoginHelper user) {
+    public EntityModel<UserDTO> updateUser(@RequestParam String userName, @RequestBody LoginHelper user) {
         return modelAssembler.toModel(service.updateUser(userName, user));
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestBody LoginHelper credentials) {
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword());
-        Authentication auth = authenticationManager.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            return "Logged In";
-        }
+    //Related to user profile
 
-        return "Could not authenticate user.";
+    @GetMapping("/{userName}/profile")
+    public EntityModel<UserProfileDTO> getUserProfile(@PathVariable String userName) {
+        return profileAssembler.toModel(userProfileService.getAndUpdate(userName));
     }
 
-    @PostMapping("/register")
-    public EntityModel<UserDTO> registerUser(@RequestBody LoginHelper user) {
-        return modelAssembler.toModel(service.registerUser(user));
+    @PutMapping(value = "/{userName}/profile", params = "bookId")
+    public EntityModel<UserProfileDTO> addFavoriteBook(@PathVariable String userName, @RequestParam Long bookId) {
+        return profileAssembler.toModel(userProfileService.addFavoriteBook(userName, bookId));
+    }
+
+    @PatchMapping(value = "/{userName}/profile", params = "bookId")
+    public EntityModel<UserProfileDTO> removeFavoriteBook(@PathVariable String userName, @RequestParam Long bookId) {
+        return profileAssembler.toModel(userProfileService.removeFavoriteBook(userName, bookId));
+    }
+
+    @PutMapping(value = "/{userName}/profile", params = "authorId")
+    public EntityModel<UserProfileDTO> addFavoriteAuthor(@PathVariable String userName, @RequestParam Long authorId) {
+        return profileAssembler.toModel(userProfileService.addFavoriteAuthor(userName, authorId));
+    }
+
+    @PatchMapping(value = "/{userName}/profile", params = "authorId")
+    public EntityModel<UserProfileDTO> removeFavoriteAuthor(@PathVariable String userName, @RequestParam Long authorId) {
+        return profileAssembler.toModel(userProfileService.removeFavoriteAuthor(userName, authorId));
     }
 }

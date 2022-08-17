@@ -46,8 +46,7 @@ public class BookController extends BaseController<Book, BookDTO, BookService, B
         return modelAssembler.toCollectionModel(service.getBookByGenres(genres));
     }
 
-    @RequestMapping(value = "/author/{id}")
-    //@GetMapping(value = "/author/{id}")
+    @GetMapping(value = "/author/{id}")
     public CollectionModel<EntityModel<BookDTO>> getBookByAuthor(@PathVariable(name = "id") Long authorId) {
         return modelAssembler.toCollectionModel(service.getBookByAuthorId(authorId));
     }

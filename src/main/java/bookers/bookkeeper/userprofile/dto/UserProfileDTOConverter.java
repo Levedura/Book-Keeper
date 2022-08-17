@@ -20,6 +20,7 @@ public class UserProfileDTOConverter extends ConverterImpl<UserProfile, UserProf
     @Override
     public UserProfileDTO toDto(UserProfile userProfile) {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setProfileImage(userProfile.getUser().getImage());
         userProfileDTO.setFavoriteBooks(bookDTOConverter.listToDto(userProfile.getFavoriteBooks()));
         userProfileDTO.setFavoriteAuthors(authorDTOConverter.listToDto(userProfile.getFavoriteAuthors()));
 

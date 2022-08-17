@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class UserProfileDTO extends RepresentationModel<UserProfileDTO> {
     private String userName;
+    private String profileImage;
     private Double meanScore;
     private Integer pagesRead;
     private Integer booksRead;

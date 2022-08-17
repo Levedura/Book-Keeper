@@ -7,9 +7,14 @@ import java.util.List;
 
 public interface BookSimpleView {
     String getTitle();
+
     List<AuthorSimpleView> getAuthors();
+
     List<Genres> getGenres();
+
     String getLanguage();
+
     Integer getPages();
+
     Double getGlobalScore();
 }
