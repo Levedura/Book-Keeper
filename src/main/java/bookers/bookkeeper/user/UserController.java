@@ -31,8 +31,8 @@ public class UserController {
         return userAssembler.toModel(service.updateUser(username, user));
     }
 
-    //Related to user profile
 
+    //Related to user profile
     @GetMapping("/{username}/profile")
     public EntityModel<UserProfileDTO> getUserProfile(@PathVariable String username) {
         return profileAssembler.toModel(userProfileService.getAndUpdate(username));

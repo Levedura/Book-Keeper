@@ -5,9 +5,12 @@ import bookers.bookkeeper.book.BookService;
 import bookers.bookkeeper.booklist.BookListRepository;
 import bookers.bookkeeper.generics.BaseService;
 import bookers.bookkeeper.user.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserProfileService extends BaseService<UserProfile, UserProfileRepository> {
@@ -35,6 +38,7 @@ public class UserProfileService extends BaseService<UserProfile, UserProfileRepo
 
     public UserProfile addFavoriteBook(String username, Long bookId) {
         UserProfile userProfile = rep.getByUser_Username(username);
+        throwIfContains(userProfile.getFavoriteBooks(), bookService.getBook(bookId), "Book already on your favorites");
         userProfile.getFavoriteBooks().add(bookService.getBook(bookId));
         return addEntity(userProfile);
     }
@@ -47,6 +51,7 @@ public class UserProfileService extends BaseService<UserProfile, UserProfileRepo
 
     public UserProfile addFavoriteAuthor(String username, Long authorId) {
         UserProfile userProfile = rep.getByUser_Username(username);
+        throwIfContains(userProfile.getFavoriteAuthors(), authorService.getEntityById(authorId), "Author already on your favorites");
         userProfile.getFavoriteAuthors().add(authorService.getEntityById(authorId));
         return addEntity(userProfile);
     }
@@ -55,6 +60,12 @@ public class UserProfileService extends BaseService<UserProfile, UserProfileRepo
         UserProfile userProfile = rep.getByUser_Username(username);
         userProfile.getFavoriteAuthors().remove(authorService.getEntityById(authorId));
         return addEntity(userProfile);
+    }
+
+    public <T> void throwIfContains(List<T> list, T obj, String message) {
+        if (list.contains(obj)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, message);
+        }
     }
 
     public UserProfile updateUserProfile(String username) {
