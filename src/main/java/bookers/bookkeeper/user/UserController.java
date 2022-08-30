@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/users/{username}")
 public class UserController {
 
     private final UserProfileService userProfileService;
@@ -25,35 +25,34 @@ public class UserController {
         this.profileAssembler = profileAssembler;
     }
 
-    @PatchMapping("/{username}")
+    @PatchMapping
     @PreAuthorize("authentication.name == #username")
     public EntityModel<UserDTO> updateUser(@PathVariable String username, @RequestBody LoginHelper user) {
         return userAssembler.toModel(service.updateUser(username, user));
     }
 
-
     //Related to user profile
-    @GetMapping("/{username}/profile")
+    @GetMapping("/profile")
     public EntityModel<UserProfileDTO> getUserProfile(@PathVariable String username) {
         return profileAssembler.toModel(userProfileService.getAndUpdate(username));
     }
 
-    @PutMapping(value = "/{username}/profile", params = "bookId")
+    @PutMapping(value = "/profile", params = "bookId")
     public EntityModel<UserProfileDTO> addFavoriteBook(@PathVariable String username, @RequestParam Long bookId) {
         return profileAssembler.toModel(userProfileService.addFavoriteBook(username, bookId));
     }
 
-    @PatchMapping(value = "/{username}/profile", params = "bookId")
+    @PatchMapping(value = "/profile", params = "bookId")
     public EntityModel<UserProfileDTO> removeFavoriteBook(@PathVariable String username, @RequestParam Long bookId) {
         return profileAssembler.toModel(userProfileService.removeFavoriteBook(username, bookId));
     }
 
-    @PutMapping(value = "/{username}/profile", params = "authorId")
+    @PutMapping(value = "/profile", params = "authorId")
     public EntityModel<UserProfileDTO> addFavoriteAuthor(@PathVariable String username, @RequestParam Long authorId) {
         return profileAssembler.toModel(userProfileService.addFavoriteAuthor(username, authorId));
     }
 
-    @PatchMapping(value = "/{username}/profile", params = "authorId")
+    @PatchMapping(value = "/profile", params = "authorId")
     public EntityModel<UserProfileDTO> removeFavoriteAuthor(@PathVariable String username, @RequestParam Long authorId) {
         return profileAssembler.toModel(userProfileService.removeFavoriteAuthor(username, authorId));
     }

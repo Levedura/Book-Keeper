@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +14,7 @@ import java.sql.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Relation(itemRelation = "userlist", collectionRelation = "userlist")
 public class BookEntryDTO extends RepresentationModel<BookEntryDTO> {
 
 

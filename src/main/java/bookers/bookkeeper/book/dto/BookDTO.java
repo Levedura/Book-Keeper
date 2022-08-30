@@ -4,11 +4,13 @@ import bookers.bookkeeper.author.dto.AuthorDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Relation(collectionRelation = "books", itemRelation = "book")
 public class BookDTO extends RepresentationModel<BookDTO> {
     private Long id;
     private String title;

@@ -6,13 +6,9 @@ import bookers.bookkeeper.generics.AssemblerConverter;
 import bookers.bookkeeper.generics.Converter;
 import bookers.bookkeeper.user.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -31,18 +27,10 @@ public class BookListModelAssembler implements AssemblerConverter<BookEntry, Boo
     @NonNull
     public EntityModel<BookEntryDTO> toModel(@NonNull BookEntry entity) {
         BookEntryDTO dto = converter.toDto(entity);
-        dto.add(linkTo(methodOn(BookListController.class).getById(entity.getId())).withSelfRel());
+        //dto.add(linkTo(methodOn(BookListController.class).getById(entity.getId())).withSelfRel());
         dto.add(linkTo(methodOn(BookController.class).getById(entity.getBook().getId())).withRel("books"));
         dto.add(linkTo(methodOn(UserController.class).getUserProfile(entity.getUser().getUsername())).withRel("user"));
         return EntityModel.of(dto);
-    }
-
-    @Override
-    @NonNull
-    public CollectionModel<EntityModel<BookEntryDTO>> toCollectionModel(@NonNull Iterable<? extends BookEntry> entities) {
-        List<EntityModel<BookEntryDTO>> result = new ArrayList<>();
-        entities.forEach(e -> result.add(toModel(e)));
-        return CollectionModel.of(result, linkTo(methodOn(BookListController.class).getAll()).withSelfRel());
     }
 
     @Override
